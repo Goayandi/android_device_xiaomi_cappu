@@ -1,6 +1,6 @@
 LOCAL_PATH := $(call my-dir)
 
-ifeq ($(TARGET_DEVICE),xds)
+ifeq ($(TARGET_DEVICE),cappu)
 
 include $(call all-makefiles-under,$(LOCAL_PATH))
 

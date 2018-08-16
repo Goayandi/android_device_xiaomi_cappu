@@ -1,7 +1,10 @@
-GPD XD+ (Plus)
+Mi Pad 3
 ==============
 
-The XD+ (Plus) (codenamed _"xds"_) is a Mediatek MT8176-based Android handheld console from GPD and the successor to the original Rockchip RK3288-based XD.
+The Mi Pad 3 (codenamed _"cappu"_) is a Mediatek MT8176-based Android tablet from Xiaomi.
+
+Click here to see [Building manual](https://github.com/Goayandi/android_device_xiaomi_cappu/tree/lineage-14.1/MANUAL.md)
+
 
 Basic   | Spec Sheet
 -------:|:-------------------------
@@ -10,9 +13,11 @@ GPU     | PowerVR GX6250
 Memory  | 4GB RAM
 Ships   | Android 7.0
 Storage | 4GB
-Battery | 6000 mAh
-Display | 5" 1280 x 720 px
+Battery | 6600 mAh
+Display | 7.9" 2048 x 1536 px
 
-![GPD XD+](https://www.geeky-gadgets.com/wp-content/uploads/2018/01/GPD-XD-Handheld-Android-Game-Console.jpg "GPD XD+")
+![Mi Pad 3](https://image4.geekbuying.com/ggo_pic/2016-12-16/Xiaomi-Mi-Pad-3-Windows-10-128GB-Tablet-PC---Gold-391826-.jpg "Mi Pad 3")
 
 This is a WIP branch for building Lineage OS 14.1 (or Android Nougat AOSP based) ROMS.
+
+Thanks: Black-Seraph
