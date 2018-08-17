@@ -267,6 +267,10 @@ on post-fs
     #change permissions on kmsg & sysrq-trigger so bugreports can grab kthread stacks
     chown root system /proc/kmsg
     chmod 0440 /proc/kmsg
+    chown root system /proc/sysrq-trigger
+    chmod 0220 /proc/sysrq-trigger
+    chown system log /proc/last_kmsg
+    chmod 0440 /proc/last_kmsg
     
     # make the selinux kernel policy world-readable
     chmod 0444 /sys/fs/selinux/policy
@@ -348,8 +352,8 @@ on post-fs-data
     mkdir /data/property 0700 root root
 
     # create the lost+found directories, so as to enforce our permissions
-    mkdir /data/lost+found 0770
-    mkdir /cache/lost+found 0770
+    mkdir /data/lost+found 0770 root root
+    mkdir /cache/lost+found 0770 root root
 
     mkdir /data/anr 0775 system system
 

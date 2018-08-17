@@ -156,8 +156,8 @@ on post-fs-data
     mkdir /persistbackup
     chmod 0771 /persistbackup
     chown system system /persistbackup
-    # Set SELinux security contexts
-    restorecon_recursive /persist
+#    # Set SELinux security contexts
+#    restorecon_recursive /persist
 
     start kisd
 
