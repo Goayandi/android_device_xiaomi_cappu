@@ -1,0 +1,6 @@
+# ==============================================
+# MTK Policy Rule
+# ==============================================
+sys.rpmb.ready u:object_r:sys_rpmb_ready_prop:s0
+#allow mediaserver to set media.wfd.*
+media.wfd. u:object_r:media_wfd_prop:s0

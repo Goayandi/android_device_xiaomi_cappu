@@ -54,3 +54,7 @@ TARGET_RECOVERY_FSTAB := device/xiaomi/cappu/rootdir/fstab.mt8173
 
 # System properties
 TARGET_SYSTEM_PROP := $(LOCAL_PATH)/system.prop
+
+# SELinux
+BOARD_SEPOLICY_DIRS := \
+    $(LOCAL_PATH)/sepolicy

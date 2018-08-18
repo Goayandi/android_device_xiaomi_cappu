@@ -1,0 +1,10 @@
+# For mt8173 bootup 
+allow platform_app surfaceflinger:fifo_file { read write };
+
+allow platform_app dri_device:chr_file {open read write ioctl };
+allow platform_app render_device:chr_file {open read write ioctl };
+allow platform_app recovery_service:service_manager { find };
+allow platform_app cache_recovery_file:dir { search };
+allow platform_app property_socket:sock_file { write };
+allow platform_app aal_service:service_manager { find };
+allow platform_app system_prop:property_service { set };

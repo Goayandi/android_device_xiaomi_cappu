@@ -1,0 +1,14 @@
+
+# For mt8173 bootup
+allow system_server surfaceflinger:fifo_file { read write };
+allow system_server dri_device:chr_file  { open read write ioctl };
+allow system_server render_device:chr_file  { open read write ioctl };
+
+# ==============================================
+# MTK Policy Rule
+# ============
+
+allow system_server pq_service:service_manager find;
+allow system_server appdetection_service:service_manager add;
+allow system_server appdetection_service:service_manager find;
+allow system_server kisd:unix_stream_socket {connectto};
