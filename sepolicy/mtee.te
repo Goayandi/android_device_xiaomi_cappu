@@ -1,0 +1,18 @@
+##
+# MTK in-house TEE daemon
+#
+
+# ==============================================
+# Type Declaration
+# ==============================================
+type mtee, domain;
+type mtee_exec, exec_type, file_type;
+type mtee_device, dev_type;
+
+# ==============================================
+# MTK Policy Rule
+# ==============================================
+# permissive mobicore;
+init_daemon_domain(mtee)
+allow mtee self:capability { dac_override };
+allow mtee mtee_device:chr_file rw_file_perms;

@@ -1,0 +1,2 @@
+type sys_rpmb_ready_prop, property_type;
+type media_wfd_prop, property_type, mtk_core_property_type;

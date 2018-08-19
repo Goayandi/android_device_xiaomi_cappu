@@ -1,0 +1,11 @@
+# Date: 2016/09/09
+#Operation: CTS (CtsUiRenderingTestCases)
+#Purpose: set new properties for shell
+allow shell surfaceflinger:fifo_file {read write};
+allow shell rootfs:file getattr;
+allow shell nvdata_file:dir getattr;
+allow shell protect_s_data_file:dir getattr;
+allow shell protect_f_data_file:dir getattr;
+allow shell sysfs:file { r_file_perms };
+allow shell render_device:chr_file { rw_file_perms };
+allow shell dri_device:chr_file { rw_file_perms };

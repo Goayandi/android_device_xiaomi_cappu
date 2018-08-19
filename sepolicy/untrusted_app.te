@@ -1,0 +1,8 @@
+
+# For mt8173 bootup 
+allow untrusted_app surfaceflinger:fifo_file { read write };
+allow untrusted_app gpu_device:chr_file { open read write ioctl};
+allow untrusted_app dri_device:chr_file { open read write ioctl};
+allow untrusted_app render_device:chr_file { open read write ioctl};
+allow system_server gpu_device:chr_file { open read write ioctl};
+allow mediaserver gpu_device:chr_file {open read write ioctl};
