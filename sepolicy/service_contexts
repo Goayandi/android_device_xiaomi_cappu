@@ -1,9 +1,0 @@
-# ==============================================
-# MTK Policy Rule
-# ==============================================
-
-# System Server Services
-
-# Other Services
-appdetection        u:object_r:appdetection_service:s0
-

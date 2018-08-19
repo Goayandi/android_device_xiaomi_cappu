@@ -1,9 +1,0 @@
-# ==============================================
-# MTK Policy Rule
-# ==============================================
-
-# System Server Services
-
-# Other Services
-type appdetection_service,  service_manager_type;
-
