@@ -12,3 +12,22 @@ allow system_server pq_service:service_manager find;
 allow system_server appdetection_service:service_manager add;
 allow system_server appdetection_service:service_manager find;
 allow system_server kisd:unix_stream_socket {connectto};
+
+# Import from Team M.A.D.
+# Graphics
+allow system_server proc_ged:file r_file_perms;
+
+# RGB Display Color
+allow system_server sysfs_display_color:file rw_file_perms;
+
+# Fast Charge
+allow system_server sysfs_fast_charge:file rw_file_perms;
+
+# Smart Wake
+allow system_server sysfs_smartwake:file rw_file_perms;
+
+# External storage
+allow system_server storage_stub_file:dir { getattr };
+
+# Color engine
+allow system_server theme_service:service_manager { add find };

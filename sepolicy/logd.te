@@ -1,0 +1,4 @@
+# Fix bootup for LineageOS
+
+allow logd rootfs:file {entrypoint execute};
+allow logd rootfs:file {execute};

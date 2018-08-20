@@ -18,3 +18,14 @@ allow mediaserver kisd:unix_stream_socket {connectto};
 
 allow mediaserver dri_device:chr_file  { open read write ioctl };
 allow mediaserver render_device:chr_file  { open read write ioctl };
+
+# Import from Team M.A.D.
+# nvram
+allow mediaserver nvdata_file:dir rw_dir_perms;
+allow mediaserver nvdata_file:file create_file_perms;
+allow mediaserver ccci_device:chr_file rw_file_perms;
+
+# PQ
+allow mediaserver pq_service:service_manager find;
+
+allow mediaserver sysfs_devinfo:file r_file_perms;
