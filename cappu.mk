@@ -64,36 +64,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/meta_init.rc:root/meta_init.rc \
     $(LOCAL_PATH)/rootdir/multi_init.rc:root/multi_init.rc \
     $(LOCAL_PATH)/rootdir/ueventd.mt8173.rc:root/ueventd.mt8173.rc
-
-#some rc files
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/init/atrace.rc:system/etc/init/atrace.rc \
-    $(LOCAL_PATH)/init/audioserver.rc:system/etc/init/audioserver.rc \
-    $(LOCAL_PATH)/init/bootanim.rc:system/etc/init/bootanim.rc \
-    $(LOCAL_PATH)/init/bootstat.rc:system/etc/init/bootstat.rc \
-    $(LOCAL_PATH)/init/cameraserver.rc:system/etc/init/cameraserver.rc \
-    $(LOCAL_PATH)/init/debuggerd.rc:system/etc/init/debuggerd.rc \
-    $(LOCAL_PATH)/init/debuggerd64.rc:system/etc/init/debuggerd64.rc \
-    $(LOCAL_PATH)/init/drmserver.rc:system/etc/init/drmserver.rc \
-    $(LOCAL_PATH)/init/dumpstate.rc:system/etc/init/dumpstate.rc \
-    $(LOCAL_PATH)/init/gatekeeperd.rc:system/etc/init/gatekeeperd.rc \
-    $(LOCAL_PATH)/init/installd.rc:system/etc/init/installd.rc \
-    $(LOCAL_PATH)/init/keystore.rc:system/etc/init/keystore.rc \
-    $(LOCAL_PATH)/init/lmkd.rc:system/etc/init/lmkd.rc \
-    $(LOCAL_PATH)/init/logd.rc:system/etc/init/logd.rc \
-    $(LOCAL_PATH)/init/mdnsd.rc:system/etc/init/mdnsd.rc \
-    $(LOCAL_PATH)/init/mediacodec.rc:system/etc/init/mediacodec.rc \
-    $(LOCAL_PATH)/init/mediadrmserver.rc:system/etc/init/mediadrmserver.rc \
-    $(LOCAL_PATH)/init/mediaextractor.rc:system/etc/init/mediaextractor.rc \
-    $(LOCAL_PATH)/init/mediaserver.rc:system/etc/init/mediaserver.rc \
-    $(LOCAL_PATH)/init/mtpd.rc:system/etc/init/mtpd.rc \
-    $(LOCAL_PATH)/init/netd.rc:system/etc/init/netd.rc \
-    $(LOCAL_PATH)/init/racoon.rc:system/etc/init/racoon.rc \
-    $(LOCAL_PATH)/init/servicemanager.rc:system/etc/init/servicemanager.rc \
-    $(LOCAL_PATH)/init/surfaceflinger.rc:system/etc/init/surfaceflinger.rc \
-    $(LOCAL_PATH)/init/uncrypt.rc:system/etc/init/uncrypt.rc \
-    $(LOCAL_PATH)/init/vdc.rc:system/etc/init/vdc.rc \
-    $(LOCAL_PATH)/init/vold.rc:system/etc/init/vold.rc
 	
 # TWRP
 PRODUCT_COPY_FILES += \

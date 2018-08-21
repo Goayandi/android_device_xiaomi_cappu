@@ -11,6 +11,7 @@ allow recovery vfat:file ~{ execute entrypoint };
 
 # Fix for bootup LineageOS
 
-allow recovery rootfs:dir {write add_name};
-allow recovery default_prop:property_service {set};
-allow recovery system_radio_prop:property_service {set};
+allow recovery rootfs:dir { create };
+allow recovery system_radio_prop:property_service set;
+allow recovery default_prop:property_service set;
+allow vold rootfs:dir { write add_name };

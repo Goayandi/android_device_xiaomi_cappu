@@ -7,7 +7,8 @@ allow init wmtWifi_device:chr_file write;
 allow init tmpfs:lnk_file create;
 
 # Fix for bootup LineageOS
-allow init kernel:security { setcheckreqprot };
+#allow init kernel:security { setcheckreqprot };
+allow init graphics_device:chr_file write;
 
 # Import from Team M.A.D.
 allow init ccci_device:chr_file { write ioctl };

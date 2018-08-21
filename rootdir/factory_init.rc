@@ -580,6 +580,7 @@ service ueventd /sbin/ueventd
     class core
     critical
     seclabel u:r:ueventd:s0
+    shutdown critical
     
 service console /system/bin/sh
     class core
