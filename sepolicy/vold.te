@@ -1,0 +1,6 @@
+# ==============================================
+# MTK Policy Rule
+# ============
+
+# for supporting access mtee based keymaster
+allow vold mtee_device:chr_file { read write open ioctl };

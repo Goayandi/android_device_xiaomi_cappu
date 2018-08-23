@@ -1,0 +1,5 @@
+# ==============================================
+# MTK Policy Rule
+# ============
+allow uncrypt para_block_device:blk_file { write open };
+
