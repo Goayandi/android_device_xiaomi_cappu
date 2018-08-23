@@ -1,3 +1,0 @@
-# Fix bootup for LineageOS
-
-allow logd rootfs:file { getattr open read entrypoint execute };
