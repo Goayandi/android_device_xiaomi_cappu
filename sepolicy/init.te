@@ -1,4 +1,3 @@
-
 # For mt8173 bootup 
 allow init functionfs:dir mounton;
 allow init nvram_data_file:lnk_file read;

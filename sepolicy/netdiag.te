@@ -1,4 +1,3 @@
-
 # For mt8173 bootup 
 allow netdiag platform_app:dir search;
 allow netdiag platform_app:file read;
