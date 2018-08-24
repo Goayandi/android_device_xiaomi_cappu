@@ -24,7 +24,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 # Assert
 TARGET_OTA_ASSERT_DEVICE := cappu,MIPAD3,mipad3
 
-# Overlays
+# Device specific overlays
 DEVICE_PACKAGE_OVERLAYS += $(DEVICE_PATH)/overlay
 
 # Screen Density
