@@ -1,4 +1,0 @@
-type rpmb_block_device,dev_type;
-
-type dri_device, dev_type, mlstrustedobject;
-type render_device, dev_type, mlstrustedobject;
