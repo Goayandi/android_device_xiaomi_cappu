@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 DEVICE_PATH := device/xiaomi/cappu
-include device/mediatek/mt8173-common/BoardConfigCommon.mk
+include device/mediatek/mt8173-common/mt8173.mk
 
 #TARGET_SPECIFIC_HEADER_PATH := $(DEVICE_PATH)/include
 
