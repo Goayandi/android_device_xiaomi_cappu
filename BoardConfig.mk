@@ -202,7 +202,3 @@ TW_EXCLUDE_TWRPAPP := true
 TW_BACKUP_DATA_MEDIA := true
 
 endif
-
-# SELinux
-BOARD_SEPOLICY_DIRS := \
-    $(DEVICE_PATH)/sepolicy
