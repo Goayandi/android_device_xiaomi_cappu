@@ -27,6 +27,9 @@ PRODUCT_BRAND := Xiaomi
 PRODUCT_MODEL := Mi Pad 3
 BOARD_MANUFACTURER := Xiaomi
 
+PRODUCT_DEFAULT_LANGUAGE := en
+PRODUCT_DEFAULT_REGION   := US
+
 PRODUCT_BUILD_PROP_OVERRIDES += \
     BUILD_FINGERPRINT="Xiaomi/cappu/cappu:7.0/NRD90M/8.4.26:user/release-keys" \
     PRIVATE_BUILD_DESC="Xiaomi/cappu/cappu:7.0/NRD90M/8.4.26:user/release-keys"

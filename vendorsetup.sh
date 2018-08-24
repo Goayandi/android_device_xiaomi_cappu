@@ -12,7 +12,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 add_lunch_combo lineage_cappu-user
 add_lunch_combo lineage_cappu-userdebug
 add_lunch_combo lineage_cappu-eng
