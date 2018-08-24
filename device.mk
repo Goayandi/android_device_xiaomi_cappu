@@ -70,7 +70,6 @@ PRODUCT_COPY_FILES += \
 
 # Keyboard layout
 PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/configs/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
     $(DEVICE_PATH)/configs/ft5x46.kl:system/usr/keylayout/ft5x46.kl
 
 # Ramdisk
