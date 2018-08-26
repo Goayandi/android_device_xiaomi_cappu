@@ -617,7 +617,7 @@ chown system system /sys/class/misc/m_step_c_misc/step_cdevnum
     chown system media /dev/mt-mdp
 
     # SMI
-    chmod 0660 /dev/MTK_SMI
+    chmod 0666 /dev/MTK_SMI
     chown media media /dev/MTK_SMI
 
 
