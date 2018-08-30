@@ -47,11 +47,11 @@ USE_CAMERA_STUB := true
 TARGET_PROVIDES_INIT_RC := true
 
 # MTK Hardware
-MTK_INTERNAL_CDEFS := $(foreach t,$(AUTO_ADD_GLOBAL_DEFINE_BY_NAME),$(if $(filter-out no NO none NONE false FALSE,$($(t))),-D$(t)))
-MTK_INTERNAL_CDEFS += $(foreach t,$(AUTO_ADD_GLOBAL_DEFINE_BY_VALUE),$(if $(filter-out no NO none NONE false FALSE,$($(t))),$(foreach v,$(shell echo $($(t)) | tr '[a-z]' '[A-Z]'),-D$(v))))
-MTK_INTERNAL_CDEFS += $(foreach t,$(AUTO_ADD_GLOBAL_DEFINE_BY_NAME_VALUE),$(if $(filter-out no NO none NONE false FALSE,$($(t))),-D$(t)=\"$($(t))\"))
+#MTK_INTERNAL_CDEFS := $(foreach t,$(AUTO_ADD_GLOBAL_DEFINE_BY_NAME),$(if $(filter-out no NO none NONE false FALSE,$($(t))),-D$(t)))
+#MTK_INTERNAL_CDEFS += $(foreach t,$(AUTO_ADD_GLOBAL_DEFINE_BY_VALUE),$(if $(filter-out no NO none NONE false FALSE,$($(t))),$(foreach v,$(shell echo $($(t)) | tr '[a-z]' '[A-Z]'),-D$(v))))
+#MTK_INTERNAL_CDEFS += $(foreach t,$(AUTO_ADD_GLOBAL_DEFINE_BY_NAME_VALUE),$(if $(filter-out no NO none NONE false FALSE,$($(t))),-D$(t)=\"$($(t))\"))
 
-MTK_GLOBAL_CFLAGS += $(MTK_INTERNAL_CDEFS)
+#MTK_GLOBAL_CFLAGS += $(MTK_INTERNAL_CDEFS)
 
 #COMMON_GLOBAL_CFLAGS += $(MTK_INTERNAL_CDEFS)
 #COMMON_GLOBAL_CPPFLAGS += $(MTK_INTERNAL_CDEFS)
@@ -114,6 +114,9 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/soc/11270000.usb/gadget//lun0/file
 
 # Kernel
+# Kernel properties
+#TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/prebuilts/kernel
+
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 TARGET_KERNEL_SOURCE := kernel/xiaomi/cappu
 TARGET_KERNEL_CONFIG := cappu_defconfig
@@ -202,3 +205,6 @@ TW_EXCLUDE_TWRPAPP := true
 TW_BACKUP_DATA_MEDIA := true
 
 endif
+
+# Hack to build without kernel sources
+#$(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
