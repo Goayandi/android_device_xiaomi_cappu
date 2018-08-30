@@ -1,0 +1,7 @@
+This is patch directory
+
+cd WORKING_DIR
+sh device/xiaomi/cappu/patches_mtk/check-patches.sh
+sh device/xiaomi/cappu/patches_mtk/apply-patches.sh
+
+sh device/xiaomi/cappu/patches_mtk/remove.sh
