@@ -1,31 +1,20 @@
 #!/bin/bash
 cd ../../../..
-cd system/core
-git apply --reverse -v ../../device/xiaomi/cappu/patches_mtk/system_core.patch
-git apply --reverse -v ../../device/xiaomi/cappu/patches_mtk/system_core1.patch
-cd ../..
-cd bionic
-git apply --reverse -v ../device/xiaomi/cappu/patches_mtk/bionic.patch
-cd ..
-cd system/sepolicy
-git apply --reverse -v ../../device/xiaomi/cappu/patches_mtk/system_sepolicy.patch
-cd ../..
 cd frameworks/av
-git apply --reverse -v ../../device/xiaomi/cappu/patches_mtk/frameworks_av.patch
-git apply --reverse -v ../../device/xiaomi/cappu/patches_mtk/0002-camera.patch
-cd ..
-cd native
-git apply --reverse -v ../../device/xiaomi/cappu/patches_mtk/frameworks_native.patch
-cd ..
-cd base
-git apply --reverse -v ../../device/xiaomi/cappu/patches_mtk/frameworks_base.patch
+git apply -v --reverse ../../device/xiaomi/cappu/patches_mtk/0001-frameworks_av.patch
 cd ../..
-cd packages/apps/FMRadio
-git apply --reverse -v ../../../device/xiaomi/cappu/patches_mtk/fmradio.patch
-cd ../../..
+cd frameworks/base
+git apply -v --reverse ../../device/xiaomi/cappu/patches_mtk/0002-frameworks_base.patch
+cd ../..
+cd frameworks/native
+git apply -v --reverse ../../device/xiaomi/cappu/patches_mtk/0003-frameworks_native.patch
+cd ../..
 cd system/netd
-git apply --reverse -v ../../device/xiaomi/cappu/patches_mtk/system_netd.patch
+git apply -v --reverse ../../device/xiaomi/cappu/patches_mtk/0004-system_netd.patch
 cd ../..
-cd vendor/cmsdk
-git apply --reverse -v ../../device/xiaomi/cappu/patches_mtk/vendor_cmsdk.patch
+cd system/core
+git apply -v --reverse ../../device/xiaomi/cappu/patches_mtk/0005-system_core.patch
+cd ../..
+cd system/sepolicy
+git apply -v --reverse ../../device/xiaomi/cappu/patches_mtk/system_sepolicy.patch
 cd ../..
