@@ -91,7 +91,7 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/rootdir/meta_init.rc:root/meta_init.rc \
     $(DEVICE_PATH)/rootdir/multi_init.rc:root/multi_init.rc \
     $(DEVICE_PATH)/rootdir/ueventd.mt8173.rc:root/ueventd.mt8173.rc
-	
+
 # TWRP
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/recovery/etc/twrp.fstab:recovery/root/etc/twrp.fstab
@@ -114,3 +114,30 @@ $(call inherit-product, device/mediatek/mt8173-common/mt8173.mk)
 
 # Vendor
 $(call inherit-product, vendor/xiaomi/cappu/cappu-vendor.mk)
+
+# Never dexopt the keyhandler
+$(call add-product-dex-preopt-module-config,com.cyanogenmod.keyhandler,disable)
+
+# Keyhandler package
+PRODUCT_PACKAGES += \
+    com.cyanogenmod.keyhandler
+
+PRODUCT_SYSTEM_SERVER_JARS += com.cyanogenmod.keyhandler
+
+# Media
+PRODUCT_PROPERTY_OVERRIDES += \
+    media.stagefright.legacyencoder=0
+
+# Disable adb security
+		PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+			ro.mount.fs=EXT4 \
+			ro.adb.secure=0 \
+			ro.secure=0 \
+			ro.allow.mock.location=0 \
+			ro.debuggable=1 \
+			persist.service.acm.enable=0 \
+			ro.config.low_ram=false
+
+		ADDITIONAL_DEFAULT_PROPERTIES += ro.adb.secure=0
+		ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
+		ADDITIONAL_DEFAULT_PROPERTIES += persist.service.adb.enable=1
