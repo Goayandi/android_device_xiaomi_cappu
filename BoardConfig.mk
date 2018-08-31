@@ -206,5 +206,7 @@ TW_BACKUP_DATA_MEDIA := true
 
 endif
 
+TARGET_SPECIFIC_HEADER_PATH := device/xiaomi/cappu/include
+
 # Hack to build without kernel sources
 #$(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
