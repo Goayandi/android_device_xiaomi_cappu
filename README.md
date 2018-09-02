@@ -18,6 +18,6 @@ Display | 7.9" 2048 x 1536 px
 
 ![Mi Pad 3](https://image4.geekbuying.com/ggo_pic/2016-12-16/Xiaomi-Mi-Pad-3-Windows-10-128GB-Tablet-PC---Gold-391826-.jpg "Mi Pad 3")
 
-This is a WIP branch for building Lineage OS 14.1 (or Android Nougat AOSP based) ROMS.
+This is a WIP branch for building Lineage OS 15.1 (or Android Nougat AOSP based) ROMS.
 
 Thanks: Black-Seraph
