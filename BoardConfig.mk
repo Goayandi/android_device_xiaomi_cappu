@@ -157,7 +157,7 @@ BOARD_TAGS_OFFSET := 0x0df88000
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
 MTK_APPENDED_DTB_SUPPORT := yes
-BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2 androidboot.selinux=permissive androidboot.selinux=disabled
+BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2 androidboot.selinux=permissive
 BOARD_MKBOOTIMG_ARGS := --base $(BOARD_KERNEL_BASE) --pagesize $(BOARD_KERNEL_PAGESIZE) --kernel_offset $(BOARD_KERNEL_OFFSET) --ramdisk_offset $(BOARD_RAMDISK_OFFSET) --second_offset $(BOARD_SECOND_OFFSET) --tags_offset $(BOARD_TAGS_OFFSET)
 
 TARGET_KERNEL_HEADER_ARCH := arm64
@@ -172,6 +172,16 @@ TARGET_RECOVERY_FSTAB := device/xiaomi/cappu/rootdir/fstab.mt8173
 
 # Recovery
 #RECOVERY_VARIANT := twrp
+
+# LZMA compression for ramdisk
+LZMA_RAMDISK_TARGETS += recovery
+
+# Recovery
+ifeq ($(WITH_TWRP),true)
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/etc/twrp.fstab
+else
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/fstab.mt8173
+endif
 
 # TWRP
 ifeq ($(RECOVERY_VARIANT), twrp)
@@ -245,3 +255,4 @@ TARGET_SPECIFIC_HEADER_PATH := device/xiaomi/cappu/include
 
 # Hack to build without kernel sources
 #$(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
+
