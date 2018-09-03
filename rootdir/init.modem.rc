@@ -101,19 +101,19 @@ service permission_check /vendor/bin/permission_check
     oneshot
 
 service ccci_fsd /vendor/bin/ccci_fsd 0
-    user radio
+    user root
     group radio system
     class core
     oneshot
 
 service ccci_mdinit /vendor/bin/ccci_mdinit 0
-    user system
+    user root
     group radio system
     class core
     oneshot
 
 service ccci_rpcd /vendor/bin/ccci_rpcd 0
-    user radio
+    user root
     group radio system
     class core
     oneshot
