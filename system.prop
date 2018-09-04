@@ -220,3 +220,11 @@ persist.radio.apm_sim_not_pwdn=1
 ro.config.max_starting_bg=4
 persist.added_boot_bgservices=4
 ro.com.google.clientidbase=android-xiaomi
+
+# Enable ADB from the begining
+persist.service.adb.enable=1
+persist.service.debuggable=1
+persist.sys.usb.config=mass_storage,adb
+
+# Media settings
+persist.media.treble_omx=false
