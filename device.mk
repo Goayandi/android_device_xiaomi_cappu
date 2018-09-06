@@ -28,7 +28,7 @@ TARGET_OTA_ASSERT_DEVICE := cappu,MIPAD3,mipad3
 DEVICE_PACKAGE_OVERLAYS += $(DEVICE_PATH)/overlay
 
 # Screen Density
-PRODUCT_AAPT_CONFIG := normal xlarge large
+PRODUCT_AAPT_CONFIG := xlarge large
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
 PRODUCT_DEFAULT_LANGUAGE := en
@@ -43,10 +43,12 @@ PRODUCT_PROPERTY_OVERRIDES := ro.carrier=wifi-only
 #$(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
 
 # Testing different configurations for Mi Pad 3
+$(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
+$(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
 #$(call inherit-product, frameworks/native/build/phone-xxxhdpi-4096-dalvik-heap.mk)
 #$(call inherit-product, frameworks/native/build/phone-xxxhdpi-4096-hwui-memory.mk)
-$(call inherit-product, frameworks/native/build/tablet-7in-xhdpi-2048-dalvik-heap.mk)
-$(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
+#$(call inherit-product, frameworks/native/build/tablet-7in-xhdpi-2048-dalvik-heap.mk)
+#$(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
 
 PRODUCT_TAGS += dalvik.gc.type-precise
 
@@ -56,8 +58,7 @@ TARGET_OTA_ASSERT_DEVICE := cappu
 # TARGET_SKIP_OTA_PACKAGE := true
 
 PRODUCT_PACKAGES += \
-   libmtk_symbols \
-   libstlport \
+   mtk_symbols \
 	 libion
 
 # Lights
@@ -70,10 +71,21 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/audio/audio_policy_configuration.xml:system/etc/audio_policy_configuration.xml \
     $(DEVICE_PATH)/configs/audio/a2dp_audio_policy_configuration.xml:/system/etc/a2dp_audio_policy_configuration.xml
 
+# Storage
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.sys.sdcardfs=true
+
 # Bluetooth
 PRODUCT_PACKAGES += \
 		android.hardware.bluetooth@1.0-impl \
 		android.hardware.bluetooth@1.0-service
+
+# Camera HAL
+PRODUCT_PACKAGES += \
+		camera.device@1.0-impl \
+		camera.device@3.2-impl \
+		android.hardware.camera.provider@2.4-impl \
+		android.hardware.camera.provider@2.4-service
 
 # FM Radio
 PRODUCT_PACKAGES += \
@@ -101,6 +113,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 		android.hardware.health@1.0-impl \
 		android.hardware.health@1.0-service
+
+# Power HAL
+PRODUCT_PACKAGES += \
+		    android.hardware.power@1.0-impl
 
 # Graphic HAL
 PRODUCT_PACKAGES += \
@@ -174,9 +190,6 @@ $(call inherit-product, device/mediatek/mt8173-common/mt8173.mk)
 # Vendor
 $(call inherit-product, vendor/xiaomi/cappu/cappu-vendor.mk)
 
-# Never dexopt the keyhandler
-$(call add-product-dex-preopt-module-config,com.cyanogenmod.keyhandler,disable)
-
 # Keyhandler package
 PRODUCT_PACKAGES += \
     com.cyanogenmod.keyhandler
@@ -200,7 +213,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Properties
 PRODUCT_PROPERTY_OVERRIDES += \
-		persist.radio.apn_delay=5000 \
+		ro.hw.gyroscope=false \
 		persist.sys.media.use-awesome=false \
 		media.stagefright.use-awesome=false
 

@@ -17,7 +17,8 @@
 $(call inherit-product, device/xiaomi/cappu/device.mk)
 
 # Inherit some common CM stuff.
-$(call inherit-product, vendor/lineage/config/common_mini_tablet_wifionly.mk)
+$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
+#$(call inherit-product, vendor/lineage/config/common_mini_tablet_wifionly.mk)
 #$(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
 #$(call inherit-product, vendor/cm/config/common_full.mk)
 
@@ -38,3 +39,6 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     PRIVATE_BUILD_DESC="Xiaomi/cappu/cappu:7.0/NRD90M/8.4.26:user/release-keys"
 
 PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
+
+# Available languages
+PRODUCT_LOCALES := en_US en_GB de_DE ru_RU uk_UA tr_TR sk_SK vi_VN fr_FR ar_EG
