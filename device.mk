@@ -1,4 +1,4 @@
-#
+lights#
 # Copyright (C) 2018 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -149,22 +149,13 @@ PRODUCT_COPY_FILES += \
 
 # Ramdisk
 PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/rootdir/enableswap.sh:root/enableswap.sh \
-    $(DEVICE_PATH)/rootdir/factory_init.connectivity.rc:root/factory_init.connectivity.rc \
-    $(DEVICE_PATH)/rootdir/factory_init.project.rc:root/factory_init.project.rc \
-    $(DEVICE_PATH)/rootdir/factory_init.rc:root/factory_init.rc \
+		$(DEVICE_PATH)/rootdir/enableswap.sh:root/enableswap.sh \
     $(DEVICE_PATH)/rootdir/fstab.mt8173:root/fstab.mt8173 \
-    $(DEVICE_PATH)/rootdir/init.aee.rc:root/init.aee.rc \
     $(DEVICE_PATH)/rootdir/init.connectivity.rc:root/init.connectivity.rc \
-    $(DEVICE_PATH)/rootdir/init.fon.rc:root/init.fon.rc \
     $(DEVICE_PATH)/rootdir/init.modem.rc:root/init.modem.rc \
     $(DEVICE_PATH)/rootdir/init.mt8173.rc:root/init.mt8173.rc \
     $(DEVICE_PATH)/rootdir/init.mt8173.usb.rc:root/init.mt8173.usb.rc \
-    $(DEVICE_PATH)/rootdir/meta_init.connectivity.rc:root/meta_init.connectivity.rc \
-    $(DEVICE_PATH)/rootdir/meta_init.modem.rc:root/meta_init.modem.rc \
-    $(DEVICE_PATH)/rootdir/meta_init.project.rc:root/meta_init.project.rc \
-    $(DEVICE_PATH)/rootdir/meta_init.rc:root/meta_init.rc \
-    $(DEVICE_PATH)/rootdir/multi_init.rc:root/multi_init.rc \
+		$(DEVICE_PATH)/rootdir/init.project.rc:root/init.project.rc \
     $(DEVICE_PATH)/rootdir/ueventd.mt8173.rc:root/ueventd.mt8173.rc
 
 # TWRP
