@@ -1,0 +1,157 @@
+# MTK project .rc configure
+
+import init.mt8173.usb.rc
+
+on post-fs-data
+
+#Camera
+    chmod 0660 /dev/MAINAF
+    chown system camera /dev/MAINAF
+
+    chmod 0660 /dev/MAINAF2
+    chown system camera /dev/MAINAF2
+
+    chmod 0660 /dev/SUBAF
+    chown system camera /dev/SUBAF
+
+    chmod 0660 /dev/GAF001AF
+    chown system camera /dev/GAF001AF
+
+    chmod 0660 /dev/DW9714AF
+    chown system camera /dev/DW9714AF
+
+    chmod 0660 /dev/AD5820AF
+    chown system camera /dev/AD5820AF
+
+    chmod 0660 /dev/BU64745GWZAF
+    chown system camera /dev/BU64745GWZAF
+
+#SMB
+    chown system system /proc/smb/ScreenComm
+    chmod 0660 /proc/smb/ScreenComm
+
+# BT
+    chmod 0660 /dev/ttyMT1
+    chown bluetooth radio /dev/ttyMT1
+
+    chmod 0660 /sys/class/rfkill/rfkill0/state
+    chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state    
+
+#Define device for ATCID
+    chmod 660 /dev/ttyGS0
+    chown system /dev/ttyGS0
+    chmod 660 /dev/ttyGS1
+    chown system /dev/ttyGS1
+
+
+    chmod 0666 /dev/exm0
+
+#Audio
+    mkdir /persist/audio 0700 system system
+    chmod 0666 /dev/i2c-9
+
+#Sensor
+    chown system /persist/als_cal_data.txt
+    chgrp system /persist/als_cal_data.txt
+    chown system /persist/accel_cal_data.txt
+    chgrp system /persist/accel_cal_data.txt
+    chown system /persist/gyro_cal_data.txt
+    chgrp system /persist/gyto_cal_data.txt
+    chmod 0660 /persist/als_cal_data.txt
+    chmod 0660 /persist/accel_cal_data.txt
+    chmod 0660 /persist/gyro_cal_data.txt
+
+on init
+    # Refer to http://source.android.com/devices/tech/storage/index.html
+    # It said, "Starting in Android 4.4, multiple external storage devices are surfaced to developers through
+    #           Context.getExternalFilesDirs(), Context.getExternalCacheDirs(), and Context.getObbDirs().
+    #           External storage devices surfaced through these APIs must be a semi-permanent part of the device (such as an SD card slot in a battery compartment).
+    #           Developers expect data stored in these locations to be available over long periods of time."
+    # Therefore, if the target doesn't support sd hot-plugging (Ex: the SD card slot in a battery compartment), we need to export SECONDARY_STORAGE in 'boot' section
+    #
+    # export SECONDARY_STORAGE /storage/sdcard1
+
+service atci_service /vendor/bin/atci_service
+	socket atci-service stream 660 radio system
+	socket atci-serv-fw stream 660 radio system
+	user root
+        disabled
+	group radio system
+service atcid-daemon-u /vendor/bin/atcid
+	user system
+	group radio system media
+	disabled
+	oneshot
+
+service atcid-daemon-e /vendor/bin/atcid
+	user root
+	group radio system
+	disabled
+	oneshot
+
+on early_property:ro.build.type=eng
+start atci_service
+start atcid-daemon-e
+service audio-daemon /vendor/bin/audiocmdservice_atci
+    class main
+    socket atci-audio stream 660 media system
+    user media
+    group nvram media system sdcard_rw
+    disabled
+    oneshot
+
+service tfa_cold_boot /system/bin/sh /system/bin/playback_audio.sh /etc/silence_short.wav 15 1
+    class main
+    user system
+    group media system sdcard_rw
+    disabled
+    oneshot
+    seclabel u:r:shell:s0
+
+on property:service.bootanim.exit=0
+    start tfa_cold_boot
+
+# MIUI ADD: Start
+    mkdir /cust 0771 system system
+
+on post-fs
+    # We chown/chmod /cust again so because mount is run as root + defaults
+    chown system system /cust
+    chmod 0771 /cust
+    # We restorecon /cust in case the cust partition has been reset.
+    restorecon_recursive /cust
+
+    # create the lost+found directories, so as to enforce our permissions
+    mkdir /cust/lost+found 0770 root root
+# End
+
+service displayfeature /system/bin/displayfeature
+    class late_start
+    user root
+    group root
+
+on property:init.svc.surfaceflinger=stopped
+    stop displayfeature
+
+on property:init.svc.surfaceflinger=running
+    start displayfeature
+
+on property:init.svc.surfaceflinger=restarting
+    stop displayfeature
+
+on property:init.svc.zygote=stopped
+    stop displayfeature
+
+on property:init.svc.zygote=running
+    start displayfeature
+
+on property:init.svc.zygote=restarting
+    stop displayfeature
+
+service sno-export /system/bin/sno-export
+    class main
+    oneshot
+	disabled
+
+on property:service.nvram_init=Ready
+    start sno-export
