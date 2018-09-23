@@ -1,23 +1,82 @@
-Mi Pad 3
+# Lenovo K4 Note - LineageOS 15.0 / AOSP 8.0
 ==============
 
-The Mi Pad 3 (codenamed _"cappu"_) is a Mediatek MT8176-based Android tablet from Xiaomi.
+This branch is device for building of the LineageOS 14.1 and Android Nougat 7.1.1 AOSP ROMs. For more information about building the ROM, read our [build manual](manual).
 
-Click here to see [Building manual](https://github.com/Goayandi/android_device_xiaomi_cappu/tree/lineage-14.1/MANUAL.md)
+---
 
+# About Device
 
-Basic   | Spec Sheet
+Lenovo K4 Note(A7010a48)
+![Lenovo K4 Note](http://images.fonearena.com/blog/wp-content/uploads/2016/01/Lenovo-Vibe-K4-Note.jpg "Lenovo K4 Note")
+
+### Specifications
+
+Component Type | Details
 -------:|:-------------------------
-CPU     | 2.1GHz Quad-Core MT8176
-GPU     | PowerVR GX6250
-Memory  | 4GB RAM
-Ships   | Android 7.0
-Storage | 4GB
-Battery | 6600 mAh
-Display | 7.9" 2048 x 1536 px
+CPU     | 1.3GHz Octa-Core MT6753
+GPU     | Mali-T720 (3 Cores)
+Memory  | 3GB RAM
+Shipped Android Version | 5.1.1
+Storage | 16GB
+Battery | 3300 mAh
+Display | 5.5" 1920 x 1080 px DPI 403
+Rear Camera | 13MP, Int.13MP (Samsung S5K3M2)
+Front Camera | 5MP, Int. 5MP (OV5693)
 
-![Mi Pad 3](https://image4.geekbuying.com/ggo_pic/2016-12-16/Xiaomi-Mi-Pad-3-Windows-10-128GB-Tablet-PC---Gold-391826-.jpg "Mi Pad 3")
+---
 
-This is a WIP branch for building Lineage OS 14.1 (or Android Nougat AOSP based) ROMS.
+# Build Information
 
-Thanks: Black-Seraph
+### Testing...
+ * Hardware acceleration
+ * Wifi
+ * Bluetooth
+ * Vibration
+ * Audio
+ * Flashlight (statusbar and camera)
+ * Micro SD support
+ * MTP and Mass Storage modes
+ * RAM and ROM
+ * Rotation
+ * Camera rear/front (photographs only)
+ * All sensors
+ * Doze
+ * Offline charging
+ * RIL
+ * Operator name
+ * Auto brightness
+ * Adjustable brightness
+ * Screen Recording
+ * Camera rear/front (video)
+ * Fingerprint scanner
+ * OTG
+ * GPS
+ * Audio over Bluetooth (music, calls .etc)
+ * Hotspot
+ * Video_Camera
+
+ ## Broken/Bugs
+ -------------
+
+
+## To be checked
+ * Enforcing SELinux
+
+
+### Thanks to:
+ * LineageOS team
+ * JonnyXDA
+ * Deepflex
+ * Leskal
+ * DeckerSU
+ * Team M.A.D
+ * Lucky76
+ * Mohancm100
+ * VisiOnary
+ * danielhk
+ * AdrianoMartins
+ * Team Zero
+ * ganeshi4u
+ * Zormax
+ * Moyster

@@ -2,6 +2,15 @@
 
 import init.connectivity.rc
 import init.project.rc
+import /FWUpgradeInit.rc
+import init.aee.rc
+import init.fon.rc
+import init.rilproxy.rc
+import init.volte.rc
+import init.mal.rc
+import init.epdg.rc
+import init.trustonic.rc
+import init.common_svc.rc
 import init.mt8173.usb.rc
 # add usb .rc here
 
@@ -147,8 +156,8 @@ on post-fs-data
     mkdir /persistbackup
     chmod 0771 /persistbackup
     chown system system /persistbackup
-#    # Set SELinux security contexts
-#    restorecon_recursive /persist
+    # Set SELinux security contexts
+    restorecon_recursive /persist
 
     start kisd
 
@@ -608,7 +617,7 @@ chown system system /sys/class/misc/m_step_c_misc/step_cdevnum
     chown system media /dev/mt-mdp
 
     # SMI
-    chmod 0666 /dev/MTK_SMI
+    chmod 0660 /dev/MTK_SMI
     chown media media /dev/MTK_SMI
 
 
