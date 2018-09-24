@@ -3,7 +3,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/factory_init.connectivity.rc:root/factory_init.connectivity.rc \
     $(LOCAL_PATH)/rootdir/factory_init.project.rc:root/factory_init.project.rc \
     $(LOCAL_PATH)/rootdir/factory_init.rc:root/factory_init.rc \
-    $(LOCAL_PATH)/rootdir/fstab.charger:root/fstab.charger \
     $(LOCAL_PATH)/rootdir/fstab.mt8173:root/fstab.mt8173 \
     $(LOCAL_PATH)/rootdir/init.connectivity.rc:root/init.connectivity.rc \
     $(LOCAL_PATH)/rootdir/init.modem.rc:root/init.modem.rc \

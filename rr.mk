@@ -15,7 +15,7 @@
 #
 
 # Inherit some common dotOS stuff.
-$(call inherit-product, vendor/rr/config/common.mk)
+$(call inherit-product, vendor/rr/config/common_full_tablet_wifionly.mk)
 
 # Inherit device configuration
 $(call inherit-product, $(LOCAL_PATH)/device_cappu.mk)
@@ -23,6 +23,8 @@ $(call inherit-product, $(LOCAL_PATH)/device_cappu.mk)
 # Device display
 TARGET_SCREEN_HEIGHT := 2048
 TARGET_SCREEN_WIDTH := 1536
+
+PRODUCT_CHARACTERISTICS := tablet
 
 # Device identifier
 PRODUCT_BRAND := Xiaomi

@@ -23,6 +23,9 @@ on early-init
     chmod 0755 /sys/kernel/debug
 
 on init
+
+	export LD_SHIM_LIBS "/system/lib/libshowlogo.so|libshim_asc.so:/system/lib/libmedia.so|libshim_snd.so:/system/lib64/libmedia.so|libshim_snd.so:/system/lib/liblog.so|libshim_xlog.so:/system/lib64/liblog.so|libshim_xlog.so:/system/lib/libui.so|libshim_ui.so:/system/lib64/libui.so|libshim_ui.so:/system/lib/libgui.so|libshim_gui.so:/system/lib64/libgui.so|libshim_gui.so"
+
     # Support legacy paths
     symlink /sdcard /mnt/sdcard
 
@@ -44,6 +47,8 @@ on init
 # change lk_env permission
     chown root system /proc/lk_env
     chmod 0660 /proc/lk_env
+
+    chmod 0666 /dev/kmsg
 
 # mount different fs start
 
@@ -76,6 +81,9 @@ on fs
 on post-fs
     # Support legacy paths
     symlink /sdcard /storage/sdcard0
+
+    symlink /sbin/busybox /system/bin/busybox
+    symlink /sbin/su /system/bin/su
 
     #change permissions for mediaserver
     chown root media /proc/clkmgr/mipi_test

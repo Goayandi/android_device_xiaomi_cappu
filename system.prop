@@ -39,23 +39,6 @@ debug.hwui.render_dirty_regions=false
 # LCD Density
 ro.sf.lcd_density=320
 
-# RIL
-ro.telephony.sim.count=2
-persist.radio.default.sim=0
-persist.radio.mobile.data=0,0
-persist.radio.multisim.config=dsds
-bgw.current3gband=0
-ril.current.share_modem=2
-ril.external.md=0
-ril.telephony.mode=0
-persist.radio.fd.counter=15
-persist.radio.fd.off.counter=5
-persist.radio.fd.r8.counter=15
-persist.radio.fd.off.r8.counter=5
-ro.mtk_gemini_support=1
-persist.gemini.sim_num=2
-ro.gemini.smart_sim_switch=false
-
 # MTK
 ro.mtk_gemini_enhancement=1
 ro.mtk_eap_sim_aka=1
@@ -86,13 +69,6 @@ ro.mtk_clearmotion_support=1
 keyguard.no_require_sim=true
 camera.disable_zsl_mode=1
 persist.debug.wfd.enable=1
-
-# Volte
-#ro.mtk_ims_support=1
-#ro.mtk_volte_support=1
-#persist.mtk.volte.enable=1
-#persist.radio.mtk_dsbp_support=1
-#persist.mtk_dynamic_ims_switch=1
 
 # performance
 ro.mtk_perf_simple_start_win=1
