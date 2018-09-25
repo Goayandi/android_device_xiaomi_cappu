@@ -1,3 +1,5 @@
+TARGET_BOARD_KERNEL_HEADERS := $(DEVICE_PATH)/kernel-headers
+
 # Kernel information
 BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2 androidboot.selinux=permissive
 BOARD_KERNEL_PAGESIZE := 2048
@@ -9,7 +11,7 @@ BOARD_TAGS_OFFSET := 0x0df88000
 BOARD_SECOND_OFFSET := 0x00f00000
 BOARD_MKBOOTIMG_ARGS := --board $(BOARD_NAME) --base $(BOARD_KERNEL_BASE) --pagesize $(BOARD_KERNEL_PAGESIZE) --kernel_offset $(BOARD_KERNEL_OFFSET) --ramdisk_offset $(BOARD_RAMDISK_OFFSET) --tags_offset $(BOARD_TAGS_OFFSET) --second_offset $(BOARD_SECOND_OFFSET)
 TARGET_IS_64_BIT := true
-#MTK_K64_SUPPORT := yes
+MTK_K64_SUPPORT := yes
 
 # Kernel properties
 TARGET_KERNEL_SOURCE := kernel/xiaomi/cappu
