@@ -2,6 +2,11 @@
 # system.prop for Xiaomi Mi Pad 3
 #
 
+# Enable ADB from the begining
+persist.service.adb.enable=1
+persist.service.debuggable=1
+persist.sys.usb.config=mass_storage,adb
+
 # RIL
 rild.libpath=/system/lib64/mtk-ril.so
 rild.libargs=-d /dev/ttyC0
