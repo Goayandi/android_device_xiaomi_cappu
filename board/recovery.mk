@@ -4,6 +4,9 @@ BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/recovery.fstab
 
+# LZMA compression for ramdisk
+LZMA_RAMDISK_TARGETS += recovery
+
 #RECOVERY_VARIANT := twrp
 
 ifeq ($(RECOVERY_VARIANT), twrp)
