@@ -39,7 +39,8 @@ include $(CLEAR_VARS)
 
 test-sanity-gralloc_extra: lpath := $(LOCAL_PATH)
 test-sanity-gralloc_extra: o32 := $(TARGET_OUT)/vendor/lib/libgralloc_extra.so
-test-sanity-gralloc_extra: $(TARGET_OUT)/vendor/lib/libgralloc_extra.so
+test-sanity-gralloc_extra: o64 := $(TARGET_OUT)/vendor/lib64/libgralloc_extra.so
+test-sanity-gralloc_extra: $(TARGET_OUT)/vendor/lib/libgralloc_extra.so  $(TARGET_OUT)/vendor/lib64/libgralloc_extra.so
 	@\
 	s32=`gdb -batch $(o32) -ex "p _ge_check_size"`; \
 	s64=`gdb -batch $(o64) -ex "p _ge_check_size"`; \
