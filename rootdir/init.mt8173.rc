@@ -2,6 +2,15 @@
 
 import init.connectivity.rc
 import init.project.rc
+import /FWUpgradeInit.rc
+import init.aee.rc
+import init.fon.rc
+import init.rilproxy.rc
+import init.volte.rc
+import init.mal.rc
+import init.epdg.rc
+import init.trustonic.rc
+import init.common_svc.rc
 import init.mt8173.usb.rc
 # add usb .rc here
 
@@ -12,17 +21,8 @@ import init.modem.rc
 on early-init
     mount debugfs debugfs /sys/kernel/debug
     chmod 0755 /sys/kernel/debug
-    chmod 0644 /proc/cmdline
 
 on init
-
-	export LD_SHIM_LIBS "/system/lib/libshowlogo.so|libshim_asc.so:/system/lib/libmedia.so|libshim_snd.so:/system/lib64/libmedia.so|libshim_snd.so:/system/lib/liblog.so|libshim_xlog.so:/system/lib64/liblog.so|libshim_xlog.so:/system/lib/libui.so|libshim_ui.so:/system/lib64/libui.so|libshim_ui.so:/system/lib/libgui.so|libshim_gui.so:/system/lib64/libgui.so|libshim_gui.so"
-
-    # For debugging:
-    setprop ro.secure=0
-    setprop ro.adb.secure=0
-    setprop ro.debuggable=1
-
     # Support legacy paths
     symlink /sdcard /mnt/sdcard
 
@@ -30,12 +30,8 @@ on init
     # setprop ro.vold.primary_physical 1
 
 # Temp Backward compatibility
-    export USBOTG_STORAGE /storage/usbotg
     mkdir /protect_f 0771 system system
     mkdir /protect_s 0771 system system
-    mkdir /system
-    mkdir /data 0771 system system
-    mkdir /cache 0770 system cache
     #create mountpoint for persist partition
     mkdir /persist 0771 system system
 #Create nvdata mount point
@@ -45,18 +41,9 @@ on init
 
     mkdir /mnt/cd-rom 0000 system system
 
-# Change ION driver permission
-    chmod 0666 /dev/ion
-
 # change lk_env permission
     chown root system /proc/lk_env
     chmod 0660 /proc/lk_env
-
-    chmod 0666 /dev/kmsg
-
-#usbotg
-    mkdir /mnt/media_rw/usbotg 0700 media_rw media_rw
-    mkdir /storage/usbotg 0700 root root
 
 # mount different fs start
 
@@ -64,8 +51,6 @@ on charger
     mkdir /dev/block/platform/mtk-msdc.0
     symlink ../soc/11230000.mmc /dev/block/platform/mtk-msdc.0/11230000.MSDC0
     mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/system /system ro wait
-    chmod 0666 /dev/kmsg
-    exec /system/bin/setprop sys.usb.config adb
     start charger
 
 service charger /sbin/healthd -c
@@ -78,19 +63,19 @@ on fs
     mkdir /dev/block/platform/mtk-msdc.0
     symlink ../soc/11230000.mmc /dev/block/platform/mtk-msdc.0/11230000.MSDC0
     mount_all /fstab.mt8173
-    mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/custom /custom ro wait   
     exec /system/bin/tune2fs -O has_journal -u 10010 -r 4096 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/userdata
 
     exec /system/bin/chown root:system /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/frp
     exec /system/bin/chmod 0660 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/frp
     write /proc/bootprof "INIT:Mount_END"
 
+on fs
+
+   mount iso9660 loop@/vendor/etc/iAmCdRom.iso /mnt/cd-rom ro
+
 on post-fs
     # Support legacy paths
     symlink /sdcard /storage/sdcard0
-
-    symlink /sbin/busybox /system/bin/busybox
-    symlink /sbin/su /system/bin/su
 
     #change permissions for mediaserver
     chown root media /proc/clkmgr/mipi_test
@@ -123,13 +108,10 @@ on post-fs-data
     chmod 0771 /persist
 
     # create basic filesystem structure
-    mkdir /data/nvram 0770 media system
-    mkdir /data/nvram/APCFG 0770 media system
-    mkdir /data/nvram/APCFG/APRDCL 0770 media system
-    mkdir /data/nvram/APCFG/APRDEB 0770 media system
+    # mkdir /data/nvram 2770 root system
     # We chown/chmod /nvdata again so because mount is run as root + defaults
-    chown media system /nvdata
-    chmod 0770 /nvdata
+    chown root system /nvdata
+    chmod 0771 /nvdata
     symlink /nvdata /data/nvram
     mkdir /nvdata/media 0771 media audio
 
@@ -519,9 +501,6 @@ chown system system /sys/class/misc/m_step_c_misc/step_cdevnum
     chmod 0660 /dev/mtk_disp_mgr
     chown system graphics /dev/mtk_disp_mgr
 
-    chmod 0660 /sys/devices/platform/mtk_disp_mgr.0/rgb
-    chown system system /sys/devices/platform/mtk_disp_mgr.0/rgb
-
     chmod 0660 /dev/mtkfb_vsync
     chown system graphics /dev/mtkfb_vsync
 
@@ -556,7 +535,7 @@ chown system system /sys/class/misc/m_step_c_misc/step_cdevnum
     chown root diag /sys/bus/platform/drivers/eint/current_eint
 
     # for ppp options file
-    mkdir /data/misc/ppp 0770 bluetooth bluetooth
+    mkdir /data/misc/ppp 0770 bluetooth net_bt
 
     # Android SEC related device nodes
     chmod 0660 /dev/sec
@@ -575,7 +554,7 @@ chown system system /sys/class/misc/m_step_c_misc/step_cdevnum
     chown root system /dev/devmap
 
     # bluetooth
-    mkdir /data/@btmtk 0770 bluetooth bluetooth
+    mkdir /data/@btmtk 0770 bluetooth net_bt
     chown bluetooth bluetooth /data/@btmtk/host_cache
     chown bluetooth bluetooth /data/@btmtk/dev_cache
     chown bluetooth bluetooth /dev/hid-keyboard
@@ -659,7 +638,7 @@ chown system system /sys/class/misc/m_step_c_misc/step_cdevnum
     chmod 0640 /mtd@recovery
     chown root system /mtd@recovery
 
-    chmod 0666 /mtd@nvram
+    chmod 0660 /mtd@nvram
     chown root system /mtd@nvram
 
     chmod 0660 /mtd@seccfg
@@ -668,7 +647,7 @@ chown system system /sys/class/misc/m_step_c_misc/step_cdevnum
     chmod 0660 /mtd@misc
     chown root system /mtd@misc
 
-    chmod 0666 /sys/bus/platform/drivers/mem_bw_ctrl/concurrency_scenario
+    chmod 0664 /sys/bus/platform/drivers/mem_bw_ctrl/concurrency_scenario
     chown media media /sys/bus/platform/drivers/mem_bw_ctrl/concurrency_scenario
 
     #mtk_sched
@@ -806,9 +785,9 @@ on boot
     chmod 0660 /dev/ttyGS3
 
 #Define device for ATCID
-    chmod 0660 /dev/ttyGS0
+    chmod 660 /dev/ttyGS0
     chown system /dev/ttyGS0
-    chmod 0660 /dev/ttyGS1
+    chmod 660 /dev/ttyGS1
     chown system /dev/ttyGS1
 
 
@@ -896,6 +875,12 @@ on property:dev.bootcomplete=1
 service bootlogoupdater /vendor/bin/boot_logo_updater
     class core
     oneshot
+
+service mobile_log_d /vendor/bin/mobile_log_d
+    class main
+
+service met_log_d /vendor/bin/met_log_d
+    class main
 
 # bugreport is triggered by holding down volume down, volume up and power
 service bugreport /system/bin/dumpstate -d -p -B \
@@ -1083,12 +1068,12 @@ on property:service.pppoe_wlan0.enable=1
 service DMAgent /vendor/bin/dm_agent_binder
     class main
     user root
-    group root system cache
+    group root cache
 
 service PPLAgent /vendor/bin/ppl_agent
     class main
-    user root
-    group root system cache
+    user system
+    group system cache
 
 service vtservice /vendor/bin/vtservice
     class main
@@ -1105,15 +1090,34 @@ service cmmb /system/bin/cmmbsp
     group system audio camera graphics inet net_bt net_bt_admin net_bw_acct media
     ioprio rt 4
 
-#service enableswap /system/bin/sh /enableswap.sh
-#    class late_start
-#    oneshot
-#    seclabel u:r:enableswap:s0
+service enableswap /system/bin/sh /enableswap.sh
+    class late_start
+    oneshot
+    seclabel u:r:enableswap:s0
 
 service swapoff_action /system/bin/sh /disableswap.sh
     class main
     disabled
     oneshot
+
+service dbus /system/bin/dbus-daemon --system --nofork
+    class main
+    socket dbus stream 660 bluetooth bluetooth
+    user bluetooth
+    group bluetooth net_bt_admin
+
+service bluetoothd /system/bin/bluetoothd -n
+    class main
+    socket bluetooth stream 660 bluetooth bluetooth
+    socket dbus_bluetooth stream 660 bluetooth bluetooth
+    # init.rc does not yet support applying capabilities, so run as root and
+    # let bluetoothd drop uid to bluetooth with the right linux capabilities
+    group bluetooth net_bt_admin misc
+    disabled
+
+#service dpfd /vendor/bin/dpfd
+#	user root
+#	group system media
 
 #
 #  External Modme control related services
@@ -1128,10 +1132,20 @@ service pppd_gprs /system/bin/pppd_dt /dev/ttyACM0 debug noauth refuse-eap usepe
     disabled
     oneshot
 
+##Add by T.Zh for ppp daemon
+#service pppd /system/bin/pppd file /data/misc/ppp/ppp_options
+#    user root
+#    disabled
+#    oneshot
+#
 ##
 #
 #  Modem related services (End)
 #
+
+#service agpsdcainit /system/bin/agpscacertinit
+#    class main
+#    oneshot
 
 service agpsd /vendor/bin/mtk_agpsd
     class main
@@ -1145,6 +1159,11 @@ service slpd /vendor/bin/slpd
     class main
     user gps
     group gps inet
+
+service extmdlogger /vendor/bin/extmdlogger
+    class main
+    user shell
+    group shell system radio sdcard_rw inet sdcard_r media_rw
 
 service GoogleOtaAgent /vendor/bin/GoogleOtaBinder
     class main
@@ -1304,6 +1323,11 @@ service panel-info-sh /system/bin/sh /system/etc/init.panel_info.sh
 #
 #emsvr service (start)
 #
+on property:ro.build.type=eng
+    start emsvr
+
+on property:ro.build.type=user
+    start emsvr_user
 
 on property:ro.build.type=userdebug
     start emsvr_user
@@ -1311,7 +1335,7 @@ on property:ro.build.type=userdebug
 service emsvr_user /vendor/bin/em_svr
     disabled
     user system
-    group system radio diag bluetooth
+    group system radio diag net_bt_stack
 
 service emsvr /vendor/bin/em_svr
     disabled
@@ -1322,9 +1346,14 @@ service emsvr /vendor/bin/em_svr
 #emsvr service (end)
 #
 
+service shutdown /system/bin/shutdown
+    user root
+    group root
+    disabled
+
 service NvRAMAgent /vendor/bin/nvram_agent_binder
     class main
-    user root
+    user system
     group system
 
 service thermal_manager /vendor/bin/thermal_manager
