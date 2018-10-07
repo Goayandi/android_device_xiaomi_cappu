@@ -8,7 +8,7 @@ persist.service.debuggable=1
 persist.sys.usb.config=mass_storage,adb
 
 # RIL
-rild.libpath=/system/lib64/mtk-ril.so
+rild.libpath=mtk-ril.so
 rild.libargs=-d /dev/ttyC0
 
 # Wifi
@@ -69,11 +69,10 @@ ro.sf.hwrotation=0
 persist.mtk.wcn.combo.chipid=-1
 drm.service.enabled=true
 wfd.dummy.enable=1
-persist.sys.display.clearMotion=1
-ro.mtk_clearmotion_support=1
 keyguard.no_require_sim=true
 camera.disable_zsl_mode=1
 persist.debug.wfd.enable=1
+media.settings.xml=/vendor/etc/media_profiles.xml
 
 # performance
 ro.mtk_perf_simple_start_win=1
