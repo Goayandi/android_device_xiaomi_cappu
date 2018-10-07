@@ -49,17 +49,6 @@ on init
 
 # mount different fs start
 
-on charger
-    mkdir /dev/block/platform/mtk-msdc.0
-    symlink ../soc/11230000.mmc /dev/block/platform/mtk-msdc.0/11230000.MSDC0
-    mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/system /system ro wait
-    start charger
-
-service charger /sbin/healthd -c
-    class charger
-    critical
-    seclabel u:r:healthd:s0
-
 on fs
     write /proc/bootprof "INIT:Mount_START"
     mkdir /dev/block/platform/mtk-msdc.0
@@ -188,7 +177,7 @@ on post-fs-data
     chown root diag /sys/module/tpd_setting/parameters/tpd_em_asamp
     chown root diag /sys/module/tpd_debug/parameters/tpd_em_log
     chown root diag /sys/module/tpd_debug/parameters/tpd_em_log_to_fs
-    write /sys/board_properties/tpd_suspend_status 2
+    #write /sys/board_properties/tpd_suspend_status 2
 
     chmod 0666 /dev/pmem_multimedia
 
@@ -414,8 +403,6 @@ chown system system /sys/class/misc/m_step_c_misc/step_cdevnum
     chown root radio /sys/devices/platform/Accdet_Driver/driver/accdet_call_state
 
     #VideoCodec
-    #insmod /vendor/lib/modules/vcodec_kernel_driver.ko
-    mknod /dev/Vcodec c 160 0
     chmod 0660 /dev/Vcodec
     chown media system /dev/Vcodec
 
@@ -533,7 +520,7 @@ chown system system /sys/class/misc/m_step_c_misc/step_cdevnum
     chown root diag /sys/bus/platform/drivers/eint/current_eint
 
     # for ppp options file
-    mkdir /data/misc/ppp 0770 bluetooth net_bt
+    mkdir /data/misc/ppp 0770 bluetooth bluetooth
 
     # Android SEC related device nodes
     chmod 0660 /dev/sec
@@ -552,7 +539,7 @@ chown system system /sys/class/misc/m_step_c_misc/step_cdevnum
     chown root system /dev/devmap
 
     # bluetooth
-    mkdir /data/@btmtk 0770 bluetooth net_bt
+    mkdir /data/@btmtk 0770 bluetooth bluetooth
     chown bluetooth bluetooth /data/@btmtk/host_cache
     chown bluetooth bluetooth /data/@btmtk/dev_cache
     chown bluetooth bluetooth /dev/hid-keyboard
@@ -636,7 +623,7 @@ chown system system /sys/class/misc/m_step_c_misc/step_cdevnum
     chmod 0640 /mtd@recovery
     chown root system /mtd@recovery
 
-    chmod 0660 /mtd@nvram
+    chmod 0666 /mtd@nvram
     chown root system /mtd@nvram
 
     chmod 0660 /mtd@seccfg
@@ -645,7 +632,7 @@ chown system system /sys/class/misc/m_step_c_misc/step_cdevnum
     chmod 0660 /mtd@misc
     chown root system /mtd@misc
 
-    chmod 0664 /sys/bus/platform/drivers/mem_bw_ctrl/concurrency_scenario
+    chmod 0666 /sys/bus/platform/drivers/mem_bw_ctrl/concurrency_scenario
     chown media media /sys/bus/platform/drivers/mem_bw_ctrl/concurrency_scenario
 
     #mtk_sched
@@ -782,12 +769,6 @@ on boot
     chown system radio /dev/ttyGS3
     chmod 0660 /dev/ttyGS3
 
-#Define device for ATCID
-    chmod 660 /dev/ttyGS0
-    chown system /dev/ttyGS0
-    chmod 660 /dev/ttyGS1
-    chown system /dev/ttyGS1
-
 # Define TCP buffer sizes for various networks
 #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
     setprop net.tcp.buffersize.default 4096,87380,524288,4096,16384,524288
@@ -802,6 +783,7 @@ on boot
     setprop net.tcp.buffersize.gprs    4092,8760,11680,4096,8760,11680
 
     setprop persist.sys.strictmode.disable 1
+#    setprop hwservicemanager.ready true
 
 on property:init.svc.bootanim=running
     write /proc/bootprof "BOOT_Animation:START"
@@ -870,16 +852,13 @@ on property:dev.bootcomplete=1
 service mobile_log_d /vendor/bin/mobile_log_d
     class main
 
-service met_log_d /vendor/bin/met_log_d
-    class main
-
 # bugreport is triggered by holding down volume down, volume up and power
-service bugreport /system/bin/dumpstate -d -p -B \
-        -o /data/user_de/0/com.android.shell/files/bugreports/bugreport
-    class main
-    disabled
-    oneshot
-    keycodes 114 115 116
+#service bugreport /system/bin/dumpstate -d -p -B \
+#        -o /data/user_de/0/com.android.shell/files/bugreports/bugreport
+#    class main
+#    disabled
+#    oneshot
+#    keycodes 114 115 116
 
 service netdiag /vendor/bin/netdiag
     class main
@@ -888,7 +867,7 @@ service netdiag /vendor/bin/netdiag
 service nvram_daemon /vendor/bin/nvram_daemon
     class main
     user root
-    group system
+    group root system
     oneshot
 
 service atci_service /vendor/bin/atci_service
@@ -1043,57 +1022,22 @@ on property:gsm.sim.ril.testsim.4=1
 service DMAgent /vendor/bin/dm_agent_binder
     class main
     user root
-    group root cache
+    group root system cache
 
 service PPLAgent /vendor/bin/ppl_agent
     class main
-    user system
-    group system cache
-
-service vtservice /vendor/bin/vtservice
-    class main
-    socket soc_vt_tcv dgram 660 radio system
-    socket soc_vt_stk dgram 660 radio system
-    socket soc_vt_svc dgram 660 radio system
-    user system
-    group system camera graphics inet net_admin net_raw media sdcard_rw radio sdcard_r media_rw
-    ioprio rt 4
-
-service cmmb /system/bin/cmmbsp
-    class main
     user root
-    group system audio camera graphics inet net_bt net_bt_admin net_bw_acct media
-    ioprio rt 4
+    group root system cache
 
-service enableswap /system/bin/sh /enableswap.sh
-    class late_start
-    oneshot
-    seclabel u:r:enableswap:s0
+#service enableswap /system/bin/sh /enableswap.sh
+#    class late_start
+#    oneshot
+#    seclabel u:r:enableswap:s0
 
 service swapoff_action /system/bin/sh /disableswap.sh
     class main
     disabled
     oneshot
-
-service dbus /system/bin/dbus-daemon --system --nofork
-    class main
-    socket dbus stream 660 bluetooth bluetooth
-    user bluetooth
-    group bluetooth net_bt_admin
-
-service bluetoothd /system/bin/bluetoothd -n
-    class main
-    socket bluetooth stream 660 bluetooth bluetooth
-    socket dbus_bluetooth stream 660 bluetooth bluetooth
-    # init.rc does not yet support applying capabilities, so run as root and
-    # let bluetoothd drop uid to bluetooth with the right linux capabilities
-    group bluetooth net_bt_admin misc
-    disabled
-
-#service dpfd /vendor/bin/dpfd
-#	user root
-#	group system media
-
 #
 #  External Modme control related services
 #
@@ -1159,13 +1103,6 @@ service dualmdlogger /vendor/bin/dualmdlogger
     disabled
     oneshot
 
-service emdlogger1 /vendor/bin/emdlogger1
-    class main
-    user shell
-    group system shell radio sdcard_rw inet sdcard_r media_rw
-    disabled
-    oneshot
-
 service emdlogger2 /vendor/bin/emdlogger2
     class main
     user shell
@@ -1207,14 +1144,14 @@ service ami304d /vendor/bin/ami304d
     class main
 
 service memsicd /vendor/bin/memsicd
-     disabled
+    disabled
     user system
     group system
     class main
 
 service memsicd3416x /vendor/bin/memsicd3416x
-     disabled
-	 user system
+    disabled
+	user system
     group system
     class main
 service akmd8975 /vendor/bin/akmd8975
@@ -1310,12 +1247,12 @@ on property:ro.build.type=userdebug
 service emsvr_user /vendor/bin/em_svr
     disabled
     user system
-    group system radio diag net_bt_stack
+    group system radio diag bluetooth
 
 service emsvr /vendor/bin/em_svr
     disabled
     user root
-    group net_bt_stack
+    group bluetooth
 
 #
 #emsvr service (end)
@@ -1328,7 +1265,7 @@ service shutdown /system/bin/shutdown
 
 service NvRAMAgent /vendor/bin/nvram_agent_binder
     class main
-    user system
+    user root
     group system
 
 service thermal_manager /vendor/bin/thermal_manager
@@ -1353,28 +1290,16 @@ service sn /vendor/bin/sn
     group system sdcard_rw
     oneshot
 
-#add for power-off alarm
-service poad /vendor/bin/poad
-    class main
-    user system
-    group system
-    oneshot
-
 #monitor battery status
 service batterywarning /vendor/bin/batterywarning
     class main
     user shell
     group shell
 
-
-#service BGW /vendor/xbin/BGW
-#	user system
-#	group gps system radio
-#	class main
 service MtkCodecService /vendor/bin/MtkCodecService
     class main
     user system
-    group audio media sdcard_r
+    group audio camera media sdcard_r
 
 # IMG GPU init
 service pvrsrvctl /vendor/bin/pvrsrvctl --no-module  --start
@@ -1385,9 +1310,9 @@ service pvrsrvctl /vendor/bin/pvrsrvctl --no-module  --start
  
 # GuiExt Server init
 service guiext-server /vendor/bin/guiext-server
-    class main
-    user system
-    group system graphics
+    class core
+    user root
+    group system graphics media
 
 # OperaMax Service
 service OperaMaxSystem /system/bin/OperaMaxSystem
@@ -1430,60 +1355,8 @@ setprop persist.radio.reset_on_switch true
 setprop rild.mark_switchuser 0
 #end
 
-chmod 0644 /vendor/lib/libzteevdo-ril.so
-chomd 0644 /vendor/lib/zterilPara
 chown root /system/bin/pppd
 chmod 4755 /system/bin/pppd
-chown root /vendor/bin/chat
-chmod 4755 /vendor/bin/chat
-
-#
-#ril-daemon (begin)
-#
-service ril-3gddaemon /vendor/bin/rild_dongle
-    class main
-    socket rild-dongle stream 660 root radio
-    socket rild-dongle-debug stream 660 radio radio
-    user root
-    group radio cache inet misc audio log
-    disabled
-
-#
-#ril-daemon (end)
-#
-
-#
-#usbdongled(begin)
-#
-service usbdongled /vendor/bin/dongled
-    class main
-	user root
-	group radio cache inet misc
-	enabled
-
-
-#
-#usbdongled(end)
-#
-
-#
-# add the service for call pppd(begin)
-#
-service zpppd_gprs /vendor/bin/init.gprs-pppd
-    user root
-	group radio cache inet misc
-	disabled
-	oneshot
-#
-# add the service for call pppd(end)
-#
-
-# Program binary service
-service program_binary /vendor/bin/program_binary_service
-    class late_start
-    user system
-    group graphics
-    oneshot
 
 service mediacodec /system/bin/mediacodec
     class main
