@@ -949,18 +949,6 @@ service pq /vendor/bin/pq
     user system
     group system graphics
 
-service aal /vendor/bin/aal
-    class main
-    user system
-    group system graphics
-
-# FOTA upgrade
-service rbfota /vendor/bin/fota1
-    class main
-    disabled
-    oneshot
-
-
 service dhcpcd_bt-pan /system/bin/dhcpcd -BK -dd
     class main
     user root
@@ -1028,17 +1016,6 @@ service dhcp6c_PD /vendor/bin/dhcp6c -c "/etc/wide-dhcpv6/dhcp6cPD.conf" -Df
     disabled
     oneshot
 
-service pppoe_wlan0 /vendor/bin/launchpppoe
-    user root
-    group radio cache inet misc
-    disabled
-    oneshot
-
-on property:service.pppoe_wlan0.enable=0
-    stop pppoe_wlan0
-
-on property:service.pppoe_wlan0.enable=1
-    start pppoe_wlan0
 # write proc for test sim
     on property:gsm.sim.ril.testsim=0
     write /proc/sys/net/netfilter/nf_conntrack_tcp_no_window_check 0
