@@ -1298,7 +1298,7 @@ service batterywarning /vendor/bin/batterywarning
 
 service MtkCodecService /vendor/bin/MtkCodecService
     class main
-    user system
+    user root
     group audio camera media sdcard_r
 
 # IMG GPU init
