@@ -329,7 +329,11 @@ on post-fs-data
     start debuggerd
     start debuggerd64
 
+	# Emulated internal storage area
+    mkdir /data/media 0770 media_rw media_rw
+
     # Make sure we have the device encryption key.
+    start logd
     start vold
     installkey /data
 
