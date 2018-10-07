@@ -168,6 +168,7 @@ on late-init
     trigger early-fs
     trigger fs
     trigger post-fs
+    trigger post-fs-data
 
     # Load properties from /system/ + /factory after fs mount. Place
     # this in another action so that the load will be scheduled after the prior
