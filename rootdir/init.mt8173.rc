@@ -92,6 +92,9 @@ on post-fs
     chown system system /protect_s
     chmod 0770 /protect_s
 
+    # once everything is setup, no need to modify /
+    mount rootfs rootfs / ro remount
+
 on post-fs-data
     chown system system /persist
     chmod 0771 /persist
