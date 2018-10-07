@@ -18,13 +18,14 @@ import init.modem.rc
 on early-init
     mount debugfs debugfs /sys/kernel/debug
     chmod 0755 /sys/kernel/debug
+    chmod 0644 /proc/cmdline
 
 on init
-
     # For debugging:
     setprop ro.secure=0
     setprop ro.adb.secure=0
     setprop ro.debuggable=1
+
     # Support legacy paths
     symlink /sdcard /mnt/sdcard
 
@@ -41,6 +42,8 @@ on init
 # Create CIP mount point
     mkdir /custom
 
+    chmod 0666 /dev/kmsg
+
     mkdir /mnt/cd-rom 0000 system system
 
 # change lk_env permission
@@ -51,13 +54,8 @@ on init
 
 on fs
     write /proc/bootprof "INIT:Mount_START"
-    mkdir /dev/block/platform/mtk-msdc.0
-    symlink ../soc/11230000.mmc /dev/block/platform/mtk-msdc.0/11230000.MSDC0
     mount_all /fstab.mt8173
     exec /system/bin/tune2fs -O has_journal -u 10010 -r 4096 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/userdata
-
-    exec /system/bin/chown root:system /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/frp
-    exec /system/bin/chmod 0660 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/frp
     write /proc/bootprof "INIT:Mount_END"
 
 on fs
