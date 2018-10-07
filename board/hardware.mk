@@ -1,5 +1,6 @@
-# CM hardware
-BOARD_HARDWARE_CLASS := $(LOCAL_PATH)/cmhw
+# LineageHW
+BOARD_USES_LINEAGE_HARDWARE := true
+BOARD_HARDWARE_CLASS := $(LOCAL_PATH)/lineagehw
 
 # MTK Hardware
 BOARD_USES_MTK_HARDWARE := true
