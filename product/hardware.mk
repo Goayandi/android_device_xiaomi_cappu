@@ -1,3 +1,6 @@
+# Folder path
+DEVICE_PATH := device/xiaomi/cappu
+
 # Hardware-specific permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.bluetooth.xml:system/etc/permissions/android.hardware.bluetooth.xml \
@@ -32,6 +35,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
    libccci_util
 
+-include $(DEVICE_PATH)/hidl.mk
+
 # Mtk symbols & shim
 PRODUCT_PACKAGES += \
     libshim_asc \
@@ -58,3 +63,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     PerformanceControl \
     Stk
+
+# HIDL Manifest
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/configs/manifest.xml:system/vendor/manifest.xml
