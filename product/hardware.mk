@@ -58,7 +58,3 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     PerformanceControl \
     Stk
-
-# Manifest
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/manifest.xml:system/vendor/manifest.xml
