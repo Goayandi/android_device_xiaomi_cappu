@@ -867,11 +867,6 @@ on property:persist.uartconsole.enable=1
 on property:dev.bootcomplete=1
     write /sys/power/pm_print_times 0
 
-# Update the second boot logo
-service bootlogoupdater /vendor/bin/boot_logo_updater
-    class core
-    oneshot
-
 service mobile_log_d /vendor/bin/mobile_log_d
     class main
 
