@@ -5,11 +5,10 @@ include $(CLEAR_VARS)
 LOCAL_SRC_FILES := \
 	GraphicBufferExtra.cpp \
 	GraphicBufferExtra_hal.cpp
-#	ge.c
+#        ge.c
 
 LOCAL_C_INCLUDES := \
-	device/xiaomi/cappu/mtk/libgralloc_extra/include \
-	device/xiaomi/cappu/mtk/libgralloc_extra/../include
+	$(LOCAL_PATH)/include
 
 LOCAL_SHARED_LIBRARIES := \
     libhardware \
@@ -17,20 +16,22 @@ LOCAL_SHARED_LIBRARIES := \
     libutils \
     liblog \
     libion \
-	libged
+    libion_mtk \
+    libged
 
 LOCAL_EXPORT_C_INCLUDE_DIRS := \
-	device/xiaomi/cappu/mtk/libgralloc_extra/include \
+	$(LOCAL_PATH)/include
 
 LOCAL_C_INCLUDES += \
-	system/core/libion/include \
-	frameworks/native/libs/nativewindow/include \
-	frameworks/native/libs/nativebase/include \
-	frameworks/native/libs/arect/include
+	$(TOP)/system/core/libion/include \
+        $(TOP)/$(DEVICE_PATH)/kernel-headers \
+	$(TOP)/frameworks/native/libs/nativewindow/include \
+	$(TOP)/frameworks/native/libs/nativebase/include \
+	$(TOP)/frameworks/native/libs/arect/include
 
 LOCAL_MODULE := libgralloc_extra
 LOCAL_MODULE_TAGS := optional
-
+LOCAL_PROPRIETARY_MODULE := true
 include $(BUILD_SHARED_LIBRARY)
 
 ifneq ($(TARGET_2ND_ARCH), "")
@@ -39,8 +40,7 @@ include $(CLEAR_VARS)
 
 test-sanity-gralloc_extra: lpath := $(LOCAL_PATH)
 test-sanity-gralloc_extra: o32 := $(TARGET_OUT)/vendor/lib/libgralloc_extra.so
-test-sanity-gralloc_extra: o64 := $(TARGET_OUT)/vendor/lib64/libgralloc_extra.so
-test-sanity-gralloc_extra: $(TARGET_OUT)/vendor/lib/libgralloc_extra.so  $(TARGET_OUT)/vendor/lib64/libgralloc_extra.so
+test-sanity-gralloc_extra: $(TARGET_OUT)/vendor/lib/libgralloc_extra.so
 	@\
 	s32=`gdb -batch $(o32) -ex "p _ge_check_size"`; \
 	s64=`gdb -batch $(o64) -ex "p _ge_check_size"`; \
