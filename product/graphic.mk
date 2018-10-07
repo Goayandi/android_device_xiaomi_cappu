@@ -8,5 +8,5 @@ PRODUCT_PACKAGES += \
     android.hardware.renderscript@1.0-impl \
     libgralloc_extra \
     libgui_ext \
-	libui_ext    android.hardware.graphics.composer@2.1-service
+	libui_ext
 
