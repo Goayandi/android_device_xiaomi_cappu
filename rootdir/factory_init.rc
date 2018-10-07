@@ -63,6 +63,11 @@ on init
     mount cgroup none /acct cpuacct
     mkdir /acct/uid
 
+    mkdir /system
+    mkdir /data 0771 system system
+    mkdir /cache 0770 system cache
+    mkdir /config 0500 root root
+
     # Create energy-aware scheduler tuning nodes
     mkdir /dev/stune
     mount cgroup none /dev/stune schedtune
