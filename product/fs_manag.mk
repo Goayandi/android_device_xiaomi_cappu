@@ -7,9 +7,13 @@ PRODUCT_PACKAGES += \
     make_ext4fs \
     resize2fs \
     setup_fs \
+	ext4_resize \
+	libext2_blkid \
+	libext2_uuid_static \
     mount.exfat \
     fsck.exfat \
     mkfs.exfat \
     fsck.ntfs \
     mkfs.ntfs \
-    mount.ntfs
+    mount.ntfs \
+	superumount
