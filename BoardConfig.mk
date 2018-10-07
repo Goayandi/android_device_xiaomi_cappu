@@ -25,10 +25,6 @@ include $(LOCAL_PATH)/board/*.mk
 
 #######################################################################
 
-# Kernel
-TARGET_KMODULES := true
-BOARD_GLOBAL_CFLAGS += -DDISABLE_HW_ID_MATCH_CHECK
-
 # Disable memcpy opt (for audio libraries)
 TARGET_CPU_MEMCPY_OPT_DISABLE := true
 
@@ -37,14 +33,10 @@ NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
 USE_OPENGL_RENDERER := true
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 
-# Flags
-BOARD_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
-
 # Fonts
 EXTENDED_FONT_FOOTPRINT := true
 
 BOARD_USE_SOFT_GATEKEEPER := true
-BOARD_DISABLE_HW_ID_MATCH_CHECK := true
 SUPPRESS_MTK_AUDIO_BLOB_ERR_MSG := true
 BOARD_PROVIDES_LIBRIL := true
 

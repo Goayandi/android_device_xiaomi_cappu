@@ -16,5 +16,6 @@ MTK_K64_SUPPORT := yes
 # Kernel properties
 TARGET_KERNEL_SOURCE := kernel/xiaomi/cappu
 TARGET_KERNEL_CONFIG := cappu_defconfig
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 MTK_APPENDED_DTB_SUPPORT := yes
