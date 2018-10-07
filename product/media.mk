@@ -12,4 +12,5 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/configs/media/media_codecs_mediatek_video.xml:system/vendor/etc/media_codecs_mediatek_video.xml \
 	$(LOCAL_PATH)/configs/media/media_codecs_performance.xml:system/vendor/etc/media_codecs_performance.xml
 
-
+PRODUCT_COPY_FILES += \
+	$(DEVICE_PATH)/configs/init/mediaserver.rc:system/etc/init/mediaserver.rc
