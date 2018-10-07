@@ -1,6 +1,7 @@
 # Charger
 PRODUCT_PACKAGES += \
-    charger
+    charger \
+    charger_res_images
 
 # Power
 PRODUCT_PACKAGES += \
