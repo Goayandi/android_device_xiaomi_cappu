@@ -7,6 +7,8 @@ persist.service.adb.enable=1
 persist.service.debuggable=1
 persist.sys.usb.config=mass_storage,adb
 
+ro.sys.usb.storage.type=mtp,mass_storage
+
 # RIL
 rild.libpath=mtk-ril.so
 rild.libargs=-d /dev/ttyC0
@@ -37,6 +39,9 @@ ro.zygote.preload.enable=0
 
 # Disable Navigation Bar
 qemu.hw.mainkeys=1
+
+# USB Charge only function
+ro.sys.usb.charging.only=yes
 
 # Disable dirty region for Mali
 debug.hwui.render_dirty_regions=false
@@ -83,3 +88,8 @@ sys.mtk.no.factoryimage=1
 sys.ipo.disable=1
 # HMDI 4K setting UI config
 ro.mtk_hdmi_4k_support=1
+
+#device tree stuff
+ro.kernel.android.checkjni=0
+net.tethering.noprovisioning=true
+persist.media.treble_omx=false
