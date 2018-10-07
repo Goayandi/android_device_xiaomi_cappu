@@ -23,7 +23,9 @@ PRODUCT_PACKAGES += \
     libtinycompress \
     libtinymix \
     libtinyxml \
+	audio_policy.stub \
     libfs_mgr
+
 # Audio HAL
 PRODUCT_PACKAGES += \
     android.hardware.audio@2.0-impl \
