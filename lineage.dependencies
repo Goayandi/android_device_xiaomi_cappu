@@ -1,0 +1,13 @@
+ 
+[ 
+ { 
+   "repository":  "goayandi/android_kernel_xiaomi_cappu", 
+   "target_path": "kernel/xiaomi/cappu", 
+   "branch":      "lineage-15.1-test" 
+ }, 
+ { 
+   "repository":  "goayandi/android_vendor_xiaomi_cappu", 
+   "target_path": "vendor/xiaomi/cappu", 
+   "branch":      "lineage-15.1-test" 
+ } 
+] 
