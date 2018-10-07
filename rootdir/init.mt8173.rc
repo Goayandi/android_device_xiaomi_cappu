@@ -833,7 +833,6 @@ on property:vold.decrypt=trigger_restart_min_framework
     start nvram_daemon
     start start_modem
     start msensord
-    start permission_check
     start stp_dump
 
 on property:vold.decrypt=trigger_restart_framework
@@ -842,7 +841,6 @@ on property:vold.decrypt=trigger_restart_framework
     start nvram_daemon
     start start_modem
     start msensord
-    start permission_check
 
 on property:vold.decrypt=trigger_shutdown_framework
     write /proc/bootprof "INIT:vold.decrypt=trigger_shutdown_framework"
