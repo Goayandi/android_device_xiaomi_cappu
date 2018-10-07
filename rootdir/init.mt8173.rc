@@ -915,9 +915,9 @@ service md_minilog_util /vendor/bin/md_minilog_util
     oneshot
 
 service pq /vendor/bin/pq
-    class main
-    user system
-    group system graphics
+    class core
+    user root
+    group system graphics media
 
 service dhcpcd_bt-pan /system/bin/dhcpcd -BK -dd
     class main
