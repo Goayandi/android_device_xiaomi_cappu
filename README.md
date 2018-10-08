@@ -29,7 +29,7 @@ Front Camera | 5MP, Int. 5MP
 # Build Information
 
 ### Working
- * Everything
+ * Nothing
 
 ## To be checked
  -------------
