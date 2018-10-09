@@ -1,39 +1,34 @@
-# Xiaomi Mi Pad 3 - ResurrectionRemix / LineageOS-15.1
+# Lenovo K4 Note - LineageOS 15.0 / AOSP 8.0
 ==============
 
-This branch is device for building of the LineageOS 15.1 and Android Oreo 8.1.x AOSP ROMs. For more information about building the ROM, read our [build manual](manual).
+This branch is device for building of the LineageOS 14.1 and Android Nougat 7.1.1 AOSP ROMs. For more information about building the ROM, read our [build manual](manual).
 
 ---
 
 # About Device
 
-Xiaomi Mi Pad 3 (cappu)
-![Mi Pad 3](https://gloimg.gbtcdn.com/gb/pdm-product-pic/Electronic/2017/04/20/goods-img/1501783820519933705.jpg "Xiaomi Mi Pad 3")
+Lenovo K4 Note(A7010a48)
+![Lenovo K4 Note](http://images.fonearena.com/blog/wp-content/uploads/2016/01/Lenovo-Vibe-K4-Note.jpg "Lenovo K4 Note")
 
 ### Specifications
 
 Component Type | Details
 -------:|:-------------------------
-CPU     | 2.1GHz Hexa-Core MT8176
-GPU     | PowerVR GX6250
-Memory  | 4GB RAM
-Shipped Android Version | 7.0
-Storage | 64GB
-Battery | 6600 mAh
-Display | 7.9" 2048 x 1536 px DPI 320
-Rear Camera | 12MP, Int.12MP
-Front Camera | 5MP, Int. 5MP
+CPU     | 1.3GHz Octa-Core MT6753
+GPU     | Mali-T720 (3 Cores)
+Memory  | 3GB RAM
+Shipped Android Version | 5.1.1
+Storage | 16GB
+Battery | 3300 mAh
+Display | 5.5" 1920 x 1080 px DPI 403
+Rear Camera | 13MP, Int.13MP (Samsung S5K3M2)
+Front Camera | 5MP, Int. 5MP (OV5693)
 
 ---
 
 # Build Information
 
-### Working
- * Everything
-
-## To be checked
- -------------
-
+### Testing...
  * Hardware acceleration
  * Wifi
  * Bluetooth
@@ -60,7 +55,14 @@ Front Camera | 5MP, Int. 5MP
  * Audio over Bluetooth (music, calls .etc)
  * Hotspot
  * Video_Camera
+
+ ## Broken/Bugs
+ -------------
+
+
+## To be checked
  * Enforcing SELinux
+
 
 ### Thanks to:
  * LineageOS team
@@ -78,7 +80,3 @@ Front Camera | 5MP, Int. 5MP
  * ganeshi4u
  * Zormax
  * Moyster
- * vishalk95
- * DidntRead
- * SamarV-121
- * DhirajSurvase
