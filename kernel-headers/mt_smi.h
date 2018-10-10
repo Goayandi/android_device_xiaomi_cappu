@@ -25,7 +25,7 @@ typedef struct {
 } MTK_MAU_CONFIG;
 
 
-int mau_config(MTK_MAU_CONFIG* pMauConf);
+int mau_config(MTK_MAU_CONFIG *pMauConf);
 int mau_dump_status(int larb);
 
 
@@ -43,6 +43,10 @@ typedef enum {
 	SMI_BWC_SCEN_UI_IDLE,
 	SMI_BWC_SCEN_VSS,
 	SMI_BWC_SCEN_FORCE_MMDVFS,
+	SMI_BWC_SCEN_HDMI,
+	SMI_BWC_SCEN_HDMI4K,
+	SMI_BWC_SCEN_VPMJC,
+	SMI_BWC_SCEN_N3D,
 	SMI_BWC_SCEN_CNT
 } MTK_SMI_BWC_SCEN;
 
@@ -62,9 +66,8 @@ typedef struct {
 	int b_on_off;		/* 0 : exit this scenario , 1 : enter this scenario */
 } MTK_SMI_BWC_CONFIG;
 
-typedef struct
-{
-	unsigned int*       hwc_max_pixel; //0 : exit this scenario , 1 : enter this scenario 
+typedef struct {
+	unsigned int *hwc_max_pixel; /* : exit this scenario , 1 : enter this scenario */
 } MTK_SMI_BWC_STATE;
 
 typedef struct {
@@ -161,7 +164,7 @@ typedef enum {
 	SPC_PROT_SEC_RW_NONSEC_R,
 	SPC_PROT_NO_ACCESS,
 
-}SPC_PROT_T;
+} SPC_PROT_T;
 
 
 typedef struct {
@@ -173,13 +176,13 @@ typedef struct {
 	unsigned int end;	/* end address to monitor */
 } MTK_SPC_CONFIG;
 
-void spc_config(MTK_SPC_CONFIG* pCfg);
+void spc_config(MTK_SPC_CONFIG *pCfg);
 unsigned int spc_status_check(void);
 unsigned int spc_dump_reg(void);
-unsigned int spc_register_isr(void* dev);
+unsigned int spc_register_isr(void *dev);
 unsigned int spc_clear_irq(void);
 int spc_test(int code);
-int MTK_SPC_Init(void* dev);
+int MTK_SPC_Init(void *dev);
 
 #define MMDVFS_ENABLE_DEFAULT_STEP_QUERY
 #define MMDVFS_MMCLOCK_NOTIFICATION

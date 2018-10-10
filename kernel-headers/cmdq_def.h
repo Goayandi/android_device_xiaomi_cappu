@@ -228,44 +228,18 @@ typedef enum CMDQ_SEC_ADDR_METADATA_TYPE {
 	CMDQ_SAM_H_2_PA = 0,	/* sec handle to sec PA */
 	CMDQ_SAM_H_2_MVA = 1,	/* sec handle to sec MVA */
 	CMDQ_SAM_NMVA_2_MVA = 2,	/* map normal MVA to secure world */
-	CMDQ_SAM_DDP_REG_HDCP = 3,	/* DDP register needs to set opposite value when HDCP fail */
-	CMDQ_SAM_NMVA2_MVA_REVERSE = 4, /* reverse map normal MVA to secure world */
 } CMDQ_SEC_ADDR_METADATA_TYPE;
 
 typedef struct cmdqSecAddrMetadataStruct {
 	/* [IN]_d, index of instruction. Update its argB value to real PA/MVA in secure world */
 	uint32_t instrIndex;
 
-	/*
-	 * Note: Buffer and offset
-	 *
-	 *   -------------
-	 *   |     |     |
-	 *   -------------
-	 *   ^     ^  ^  ^
-	 *   A     B  C  D
-	 *
-	 *	A: baseHandle
-	 *	B: baseHandle + blockOffset
-	 *  C: baseHandle + blockOffset + offset
-	 *	A~B or B~D: size
-	 */
-
 	CMDQ_SEC_ADDR_METADATA_TYPE type;	/* [IN] addr handle type */
 	uint32_t baseHandle;	/* [IN]_h, secure address handle */
-	uint32_t blockOffset;	/* [IN]_b, block offset from handle(PA) to current block(plan) */
 	uint32_t offset;	/* [IN]_b, buffser offset to secure handle */
 	uint32_t size;		/* buffer size */
 	uint32_t port;		/* hw port id (i.e. M4U port id) */
 } cmdqSecAddrMetadataStruct;
-
-/* tablet use */
-enum CMDQ_DISP_MODE {
-	CMDQ_DISP_NON_SUPPORTED_MODE = 0,
-	CMDQ_DISP_SINGLE_MODE = 1,
-	CMDQ_DISP_VIDEO_MODE = 2,
-	CMDQ_MDP_USER_MODE = 3,
-};
 
 typedef struct cmdqSecDataStruct {
 	bool isSecure;		/* [IN]true for secure command */
@@ -281,13 +255,6 @@ typedef struct cmdqSecDataStruct {
 	/* [Reserved] This is for CMDQ driver usage itself. Not for client. */
 	int32_t waitCookie;	/* task index in thread's tasklist. -1 for not in tasklist. */
 	bool resetExecCnt;	/* reset HW thread in SWd */
-
-	/* tablet use */
-	enum CMDQ_DISP_MODE secMode;
-	/* for MDP to copy HDCP version from srcHandle to dstHandle */
-	/* will remove later */
-	uint32_t srcHandle;
-	uint32_t dstHandle;
 } cmdqSecDataStruct;
 
 #ifdef CMDQ_PROFILE_MARKER_SUPPORT
@@ -325,8 +292,6 @@ typedef struct cmdqCommandStruct {
 #ifdef CMDQ_PROFILE_MARKER_SUPPORT
 	cmdqProfileMarkerStruct profileMarker;
 #endif
-	cmdqU32Ptr_t userDebugStr;
-	uint32_t userDebugStrLen;
 } cmdqCommandStruct;
 
 typedef enum CMDQ_CAP_BITS {

@@ -6,6 +6,7 @@
 
 typedef enum {
     DISP_GAMMA0 = 0,
+    DISP_GAMMA1,
     DISP_GAMMA_TOTAL
 } disp_gamma_id_t;
 
@@ -23,6 +24,7 @@ typedef struct {
 
 typedef enum {
     DISP_CCORR0 = 0,
+    DISP_CCORR1,
     DISP_CCORR_TOTAL
 } disp_ccorr_id_t;
 
@@ -30,6 +32,9 @@ typedef struct {
     disp_ccorr_id_t hw_id;
     unsigned int coef[3][3];
 } DISP_CCORR_COEF_T;
+
+
+void disp_gamma_init(disp_gamma_id_t id, unsigned int width, unsigned int height, void *cmdq);
 
 #endif
 

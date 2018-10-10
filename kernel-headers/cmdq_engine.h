@@ -1,16 +1,3 @@
-/*
- * Copyright (C) 2015 MediaTek Inc.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- */
-
 #ifndef __CMDQ_ENGINE_H__
 #define __CMDQ_ENGINE_H__
 
@@ -72,10 +59,12 @@ typedef enum CMDQ_ENG_ENUM {
 
 	/* Dummy Engine */
 	CMDQ_ENG_MDP_COLOR0,
+
 	CMDQ_ENG_DISP_OVL2,
 	CMDQ_ENG_DISP_2L_OVL0,
 	CMDQ_ENG_DISP_2L_OVL1,
 	CMDQ_ENG_DISP_2L_OVL2,
+
 	CMDQ_ENG_DPE,
 
 	CMDQ_MAX_ENGINE_COUNT	/* ALWAYS keep at the end */

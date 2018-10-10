@@ -3,6 +3,11 @@
 
 #include <linux/ioctl.h>
 
+#ifdef CONFIG_COMPAT
+//64 bit
+#include <linux/fs.h>
+#include <linux/compat.h>
+#endif
 
 /**
     enforce kernel log enable
@@ -36,7 +41,6 @@
 #define ISP_IRQ_P1_STATUS_rsv_11                    ((unsigned int)1<<11)
 #define ISP_IRQ_P1_STATUS_SOF1_INT_ST               ((unsigned int)1<<12)
 #define ISP_IRQ_P1_STATUS_rsv_13                    ((unsigned int)1<<13)
-#define ISP_IRQ_P1_STATUS_PESUDO_P1_DON_ST          ((unsigned int)1<<15)
 #define ISP_IRQ_P1_STATUS_AF_DON_ST                 ((unsigned int)1<<16)
 #define ISP_IRQ_P1_STATUS_FLK_DON_ST                ((unsigned int)1<<17)
 #define ISP_IRQ_P1_STATUS_rsv_18                    ((unsigned int)1<<18)
@@ -81,7 +85,6 @@
 #define ISP_IRQ_P1_STATUS_D_rsv_11                    ((unsigned int)1<<11)
 #define ISP_IRQ_P1_STATUS_D_SOF1_INT_ST               ((unsigned int)1<<12)
 #define ISP_IRQ_P1_STATUS_D_rsv_13                    ((unsigned int)1<<13)
-#define ISP_IRQ_P1_STATUS_D_PESUDO_P1_DON_ST          ((unsigned int)1<<15)
 #define ISP_IRQ_P1_STATUS_D_AF_DON_ST                 ((unsigned int)1<<16)
 #define ISP_IRQ_P1_STATUS_D_rsv_17                    ((unsigned int)1<<17)
 #define ISP_IRQ_P1_STATUS_D_IMGO_ERR_ST               ((unsigned int)1<<20)
@@ -114,6 +117,8 @@
 #define ISP_CAM_CTL_SEL_P1_IMGO_SEL                    ((unsigned int)1<<6)
 //CAM_CTL_SEL_P1_D
 #define ISP_CAM_CTL_SEL_P1_D_IMGO_SEL                  ((unsigned int)1<<6)
+
+
 //CAM_CTL_INT_P2_STATUS
 #define ISP_IRQ_P2_STATUS_CQ_ERR_ST                 ((unsigned int)1<<0)
 #define ISP_IRQ_P2_STATUS_PASS2_DON_ST              ((unsigned int)1<<1)
@@ -374,14 +379,6 @@ typedef enum
     ISP_IRQ_USER_VHDR   =   6,
     ISP_IRQ_USER_MAX
 }ISP_IRQ_USER_ENUM;
-
-typedef struct
-{
-    ISP_IRQ_TYPE_ENUM   Type;
-    unsigned int        Status;
-    int                 UserKey;                     /* user key for doing interrupt operation */
-}ISP_IRQ_USER_STRUCT;
-
 typedef enum    //special user for specific operation
 {
     ISP_IRQ_WAITIRQ_SPEUSER_NONE = 0,
@@ -391,13 +388,8 @@ typedef enum    //special user for specific operation
 
 typedef struct
 {
-    unsigned int    tLastSig_sec;                       /* time stamp of the latest occuring signal*/
+     unsigned int    tLastSig_sec;                       /* time stamp of the latest occuring signal*/
     unsigned int    tLastSig_usec;                  /* time stamp of the latest occuring signal*/
-    unsigned int    tMark2WaitSig_sec;            /* time period from marking a signal to user try to wait and get the signal*/
-    unsigned int    tMark2WaitSig_usec;            /* time period from marking a signal to user try to wait and get the signal*/
-    unsigned int    tLastSig2GetSig_sec;         /* time period from latest occuring signal to user try to wait and get the signal*/
-    unsigned int    tLastSig2GetSig_usec;         /* time period from latest occuring signal to user try to wait and get the signal*/
-    int             passedbySigcnt;          /* the count for the signal passed by  */
 }ISP_IRQ_TIME_STRUCT;
 
 typedef struct
@@ -409,25 +401,18 @@ typedef struct
 
 typedef struct
 {
-    ISP_IRQ_CLEAR_ENUM  Clear;		//v1 & v3
-    ISP_IRQ_TYPE_ENUM   Type;           //v1 only
-    unsigned int        Status;                 //v1 only
-    int                 UserNumber;             //v1 only
-    unsigned int        Timeout;             //v1 & v3
-    char*			    UserName;       //no use
-    unsigned int        irq_TStamp;         //v1 & v3
-    unsigned int        bDumpReg;         //v1 & v3
-    ISP_IRQ_USER_STRUCT  UserInfo;  //v3 only
-    ISP_IRQ_TIME_STRUCT  TimeInfo;  //v3 only
-    ISP_EIS_META_STRUCT EisMeta;    //v1&v3
+    ISP_IRQ_CLEAR_ENUM  Clear;		//remove this
+    ISP_IRQ_TYPE_ENUM   Type;
+    unsigned int        Status;
+    int                 UserNumber;
+    unsigned int        Timeout;
+	char*			    UserName;
+	unsigned int        irq_TStamp;
+    unsigned int        bDumpReg;
+    ISP_IRQ_TIME_STRUCT  TimeInfo;  //v3 
+     ISP_EIS_META_STRUCT EisMeta;
     ISP_IRQ_WAITIRQ_SPEUSER_ENUM SpecUser;
 }ISP_WAIT_IRQ_STRUCT;
-
-typedef struct
-{
-    int  userKey;
-    char* userName;
-}ISP_REGISTER_USERKEY_STRUCT;
 
 typedef struct
 {
@@ -680,7 +665,7 @@ typedef enum
 typedef struct  {
     ISP_REF_CNT_CTRL_ENUM   ctrl;
     ISP_REF_CNT_ID_ENUM     id;
-    signed int*         data_ptr;
+    signed int*            data_ptr;
 }ISP_REF_CNT_CTRL_STRUCT;
 
 //struct for enqueue/dequeue control in ihalpipe wrapper
@@ -784,6 +769,7 @@ typedef struct _cq0b_rtbc_ring_st_
     CQ0B_RING_CMD_ST rtbc_ring;
 }CQ0B_RTBC_RING_ST;
 //
+
 typedef volatile union _CQ_RTBC_FBC_
 {
     volatile struct
@@ -802,6 +788,64 @@ typedef volatile union _CQ_RTBC_FBC_
     unsigned int Reg_val;
 }CQ_RTBC_FBC;
 
+
+#ifdef CONFIG_COMPAT
+
+typedef struct
+{
+    ISP_IRQ_CLEAR_ENUM  Clear;		//remove this
+    ISP_IRQ_TYPE_ENUM   Type;
+    unsigned int        Status;
+    int                 UserNumber;
+    unsigned int        Timeout;
+    compat_uptr_t       UserName;
+    unsigned int        irq_TStamp;
+    unsigned int        bDumpReg;
+    ISP_IRQ_TIME_STRUCT  TimeInfo;  //v3 
+    ISP_EIS_META_STRUCT EisMeta;
+    ISP_IRQ_WAITIRQ_SPEUSER_ENUM SpecUser;
+}compat_ISP_WAIT_IRQ_STRUCT;
+
+
+typedef struct
+{
+    ISP_IRQ_TYPE_ENUM   Type;
+    ISP_IRQ_USER_ENUM   UserNumber;
+    unsigned int       Status;
+}compat_ISP_READ_IRQ_STRUCT;
+
+typedef struct
+{
+    ISP_IRQ_TYPE_ENUM   Type;
+    ISP_IRQ_USER_ENUM   UserNumber;
+    unsigned int       Status;
+}compat_ISP_CLEAR_IRQ_STRUCT;
+
+
+typedef struct
+{
+    compat_uptr_t pData;
+    unsigned int Count;  // count
+}compat_ISP_REG_IO_STRUCT;
+
+//
+typedef struct  {
+    ISP_RT_BUF_CTRL_ENUM    ctrl;
+    _isp_dma_enum_          buf_id;
+    compat_uptr_t           data_ptr;
+    compat_uptr_t           ex_data_ptr; //exchanged buffer
+    compat_uptr_t           pExtend;
+}compat_ISP_BUFFER_CTRL_STRUCT;
+
+
+typedef struct  {
+    ISP_REF_CNT_CTRL_ENUM   ctrl;
+    ISP_REF_CNT_ID_ENUM     id;
+    compat_uptr_t         data_ptr;
+}compat_ISP_REF_CNT_CTRL_STRUCT;
+
+
+#endif
 //
 /********************************************************************************************
 
@@ -846,10 +890,6 @@ typedef enum
     ISP_CMD_SET_FPS,
 #endif
     ISP_CMD_WAKELOCK_CTRL,
-    ISP_CMD_REGISTER_IRQ_USER_KEY,              /* register for a user key to do irq operation */
-    ISP_CMD_MARK_IRQ_REQUEST,                    /* mark for a specific register befor wait for the interrupt if needed */
-    ISP_CMD_GET_MARK2QUERY_TIME,             /* query time information between read and mark */
-    ISP_CMD_FLUSH_IRQ_REQUEST,                    /* flush signal */
 }ISP_CMD_ENUM;
 //
 #define ISP_RESET_CAM_P1    _IO  (ISP_MAGIC, ISP_CMD_RESET_CAM_P1)
@@ -884,13 +924,22 @@ typedef enum
 #ifdef T_STAMP_2_0
     #define ISP_SET_FPS     _IOW (ISP_MAGIC, ISP_CMD_SET_FPS,    unsigned int)
 #endif
-#define ISP_REGISTER_IRQ_USER_KEY   _IOR(ISP_MAGIC,ISP_CMD_REGISTER_IRQ_USER_KEY,ISP_REGISTER_USERKEY_STRUCT)
-#define ISP_MARK_IRQ_REQUEST        _IOWR(ISP_MAGIC,ISP_CMD_MARK_IRQ_REQUEST,ISP_WAIT_IRQ_STRUCT)
-#define ISP_GET_MARK2QUERY_TIME     _IOWR(ISP_MAGIC,ISP_CMD_GET_MARK2QUERY_TIME,ISP_WAIT_IRQ_STRUCT)
-#define ISP_FLUSH_IRQ_REQUEST       _IOW(ISP_MAGIC,ISP_CMD_FLUSH_IRQ_REQUEST,ISP_WAIT_IRQ_STRUCT)
-
 #define ISP_WAKELOCK_CTRL     _IOWR (ISP_MAGIC, ISP_CMD_WAKELOCK_CTRL,      unsigned int)
 
+#ifdef CONFIG_COMPAT
+
+#define COMPAT_ISP_READ_REGISTER   _IOWR(ISP_MAGIC, ISP_CMD_READ_REG,      compat_ISP_REG_IO_STRUCT)
+#define COMPAT_ISP_WRITE_REGISTER  _IOWR(ISP_MAGIC, ISP_CMD_WRITE_REG,     compat_ISP_REG_IO_STRUCT)
+#define COMPAT_ISP_DEBUG_FLAG     _IOW (ISP_MAGIC, ISP_CMD_DEBUG_FLAG,     compat_uptr_t)
+#define COMPAT_ISP_GET_DMA_ERR     _IOWR (ISP_MAGIC, ISP_CMD_GET_DMA_ERR,  compat_uptr_t)
+#define COMPAT_ISP_GET_INT_ERR     _IOR   (ISP_MAGIC, ISP_CMD_GET_INT_ERR, compat_uptr_t)
+
+#define COMPAT_ISP_WAIT_IRQ        _IOW (ISP_MAGIC, ISP_CMD_WAIT_IRQ,      compat_ISP_WAIT_IRQ_STRUCT)
+#define COMPAT_ISP_READ_IRQ        _IOR (ISP_MAGIC, ISP_CMD_READ_IRQ,      compat_ISP_READ_IRQ_STRUCT)
+#define COMPAT_ISP_BUFFER_CTRL     _IOWR(ISP_MAGIC, ISP_CMD_RT_BUF_CTRL,    compat_ISP_BUFFER_CTRL_STRUCT)
+#define COMPAT_ISP_REF_CNT_CTRL    _IOWR(ISP_MAGIC, ISP_CMD_REF_CNT,       compat_ISP_REF_CNT_CTRL_STRUCT)
+
+#endif
 //
 bool ISP_RegCallback(ISP_CALLBACK_STRUCT* pCallback);
 bool ISP_UnregCallback(ISP_CALLBACK_ENUM   Type);

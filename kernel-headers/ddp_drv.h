@@ -1,15 +1,12 @@
 
 #ifndef __DDP_DRV_H__
 #define __DDP_DRV_H__
-
 #include <linux/ioctl.h>
 #include <sys/types.h>
 #include "ddp_hal.h"
 #include "ddp_aal.h"
 #include "ddp_gamma.h"
 #include "disp_event.h"
-/*#include "DpDataType.h"*/
-
 
 typedef struct
 {
@@ -48,7 +45,7 @@ typedef struct
 {
     int layer;
 
-    unsigned long addr;
+    unsigned int addr;
     unsigned int fmt;
 
     int x;
@@ -57,6 +54,17 @@ typedef struct
     int h;                  // clip region
     int pitch;
 } DISP_OVL_INFO;
+
+#ifdef CONFIG_FOR_SOURCE_PQ
+typedef struct
+{
+    unsigned int mutex;
+    unsigned int session_num;
+    unsigned int max_layer_num;
+    unsigned int decouple;
+    unsigned int cascade;
+}DISP_PQ_STATUS;
+#endif
 
 //PQ
 #define COLOR_TUNING_INDEX 19
@@ -67,7 +75,7 @@ typedef struct
 #define GLOBAL_SAT_SIZE 10
 #define CONTRAST_SIZE 10
 #define BRIGHTNESS_SIZE 10
-#define PARTIAL_Y_SIZE 16
+#define PARTIAL_Y_SIZE 28
 #define PQ_HUE_ADJ_PHASE_CNT 4
 #define PQ_SAT_ADJ_PHASE_CNT 4
 #define PQ_PARTIALS_CONTROL 5
@@ -76,13 +84,6 @@ typedef struct
 #define GRASS_TONE_SIZE 6 //(-2)
 #define SKY_TONE_SIZE 3
 #define CCORR_COEF_CNT 4 /* ccorr feature */
-
-enum TONE_ENUM {
-    PURP_TONE = 0,
-    SKIN_TONE = 1,
-    GRASS_TONE = 2,
-    SKY_TONE = 3
-};
 
 typedef struct {
     unsigned int u4SHPGain;    // 0 : min , 9 : max.
@@ -109,7 +110,7 @@ typedef struct {
     int camera;
 } DISP_PQ_MAPPING_PARAM;
 
-typedef struct{
+typedef struct {
     unsigned int en;
     unsigned int pos_x;
     unsigned int pos_y;
@@ -126,36 +127,21 @@ typedef struct {
 } MDP_TDSHP_REG;
 
 typedef struct{
-    unsigned int GLOBAL_SAT  [GLOBAL_SAT_SIZE];
-    unsigned int CONTRAST    [CONTRAST_SIZE];
-    unsigned int BRIGHTNESS  [BRIGHTNESS_SIZE];
-    unsigned int PARTIAL_Y    [PARTIAL_Y_INDEX][PARTIAL_Y_SIZE];
-    unsigned int PURP_TONE_S  [COLOR_TUNING_INDEX][PQ_PARTIALS_CONTROL][PURP_TONE_SIZE];
-    unsigned int SKIN_TONE_S  [COLOR_TUNING_INDEX][PQ_PARTIALS_CONTROL][SKIN_TONE_SIZE];
-    unsigned int GRASS_TONE_S [COLOR_TUNING_INDEX][PQ_PARTIALS_CONTROL][GRASS_TONE_SIZE];
-    unsigned int SKY_TONE_S   [COLOR_TUNING_INDEX][PQ_PARTIALS_CONTROL][SKY_TONE_SIZE];
-    unsigned int PURP_TONE_H  [COLOR_TUNING_INDEX][PURP_TONE_SIZE];
-    unsigned int SKIN_TONE_H  [COLOR_TUNING_INDEX][SKIN_TONE_SIZE];
-    unsigned int GRASS_TONE_H [COLOR_TUNING_INDEX][GRASS_TONE_SIZE];
-    unsigned int SKY_TONE_H   [COLOR_TUNING_INDEX][SKY_TONE_SIZE];
-    unsigned int CCORR_COEF   [CCORR_COEF_CNT][3][3];
 
+    unsigned short GLOBAL_SAT  [GLOBAL_SAT_SIZE];
+    unsigned short CONTRAST    [CONTRAST_SIZE];
+    unsigned short BRIGHTNESS  [BRIGHTNESS_SIZE];
+    unsigned char PARTIAL_Y    [PARTIAL_Y_INDEX][PARTIAL_Y_SIZE];
+    unsigned char PURP_TONE_S  [COLOR_TUNING_INDEX][PQ_PARTIALS_CONTROL][PURP_TONE_SIZE];
+    unsigned char SKIN_TONE_S  [COLOR_TUNING_INDEX][PQ_PARTIALS_CONTROL][SKIN_TONE_SIZE];
+    unsigned char GRASS_TONE_S [COLOR_TUNING_INDEX][PQ_PARTIALS_CONTROL][GRASS_TONE_SIZE];
+    unsigned char SKY_TONE_S   [COLOR_TUNING_INDEX][PQ_PARTIALS_CONTROL][SKY_TONE_SIZE];
+    unsigned char PURP_TONE_H  [COLOR_TUNING_INDEX][PURP_TONE_SIZE];
+    unsigned char SKIN_TONE_H  [COLOR_TUNING_INDEX][SKIN_TONE_SIZE];
+    unsigned char GRASS_TONE_H [COLOR_TUNING_INDEX][GRASS_TONE_SIZE];
+    unsigned char SKY_TONE_H   [COLOR_TUNING_INDEX][SKY_TONE_SIZE];
+    unsigned int  CCORR_COEF   [CCORR_COEF_CNT][3][3];
 } DISPLAY_PQ_T;
-
-typedef struct{
-    unsigned int GLOBAL_SAT  ;
-    unsigned int CONTRAST    ;
-    unsigned int BRIGHTNESS  ;
-    unsigned int PARTIAL_Y    [PARTIAL_Y_SIZE];
-    unsigned int PURP_TONE_S  [PQ_PARTIALS_CONTROL][PURP_TONE_SIZE];
-    unsigned int SKIN_TONE_S  [PQ_PARTIALS_CONTROL][SKIN_TONE_SIZE];
-    unsigned int GRASS_TONE_S [PQ_PARTIALS_CONTROL][GRASS_TONE_SIZE];
-    unsigned int SKY_TONE_S   [PQ_PARTIALS_CONTROL][SKY_TONE_SIZE];
-    unsigned int PURP_TONE_H  [PURP_TONE_SIZE];
-    unsigned int SKIN_TONE_H  [SKIN_TONE_SIZE];
-    unsigned int GRASS_TONE_H [GRASS_TONE_SIZE];
-    unsigned int SKY_TONE_H   [SKY_TONE_SIZE];
-} DISPLAY_COLOR_REG_T;
 
 typedef struct{
 
@@ -163,7 +149,40 @@ typedef struct{
 
 } DISPLAY_TDSHP_T;
 
-#if 0
+typedef enum {
+    DS_en = 0,
+    iUpSlope,
+    iUpThreshold,
+    iDownSlope,
+    iDownThreshold,
+    iISO_en,
+    iISO_thr1,
+    iISO_thr0,
+    iISO_thr3,
+    iISO_thr2,
+    iISO_IIR_alpha,
+    iCorZero_clip2,
+    iCorZero_clip1,
+    iCorZero_clip0,
+    iCorThr_clip2,
+    iCorThr_clip1,
+    iCorThr_clip0,
+    iCorGain_clip2,
+    iCorGain_clip1,
+    iCorGain_clip0,
+    iGain_clip2,
+    iGain_clip1,
+    iGain_clip0,
+    PQ_DS_INDEX_MAX
+} PQ_DS_index_t;
+
+
+typedef struct {
+
+    int param[PQ_DS_INDEX_MAX];
+
+} DISP_PQ_DS_PARAM;
+
 typedef enum {
     BlackEffectEnable = 0,
     WhiteEffectEnable,
@@ -212,41 +231,7 @@ typedef struct {
     int param[40];
 
 } DISP_PQ_DC_PARAM;
-#endif
 
-typedef enum {
-    DS_en = 0,
-    iUpSlope,
-    iUpThreshold,
-    iDownSlope,
-    iDownThreshold,
-    iISO_en,
-    iISO_thr1,
-    iISO_thr0,
-    iISO_thr3,
-    iISO_thr2,
-    iISO_IIR_alpha,
-    iCorZero_clip2,
-    iCorZero_clip1,
-    iCorZero_clip0,
-    iCorThr_clip2,
-    iCorThr_clip1,
-    iCorThr_clip0,
-    iCorGain_clip2,
-    iCorGain_clip1,
-    iCorGain_clip0,
-    iGain_clip2,
-    iGain_clip1,
-    iGain_clip0,
-    PQ_DS_INDEX_MAX
-} PQ_DS_index_t;
-
-
-typedef struct {
-
-    int param[PQ_DS_INDEX_MAX];
-
-} DISP_PQ_DS_PARAM;
 
 // OD
 typedef struct {
@@ -344,14 +329,13 @@ typedef enum
 #define DISP_IOCTL_WRITE_SW_REG     _IOW    (DISP_IOCTL_MAGIC, 77, DISP_WRITE_REG)   // also defined in atci_pq_cmd.h
 #define DISP_IOCTL_READ_SW_REG      _IOWR   (DISP_IOCTL_MAGIC, 78, DISP_READ_REG)    // also defined in atci_pq_cmd.h
 
-#define DISP_IOCTL_SET_COLOR_REG    _IOWR    (DISP_IOCTL_MAGIC, 79, DISPLAY_COLOR_REG_T)
+#ifdef CONFIG_FOR_SOURCE_PQ
+#define DISP_IOCTL_PQ_GET_DISP_STATUS _IOR    (DISP_IOCTL_MAGIC, 79 , DISP_PQ_STATUS)
+#endif
 
 // OD
 #define DISP_IOCTL_OD_CTL           _IOWR    (DISP_IOCTL_MAGIC, 80 , DISP_OD_CMD)
-
-// OVL
-#define DISP_IOCTL_OVL_ENABLE_CASCADE  _IOW    (DISP_IOCTL_MAGIC, 90 , int)
-#define DISP_IOCTL_OVL_DISABLE_CASCADE  _IOW    (DISP_IOCTL_MAGIC, 91 , int)
+#define DISP_IOCTL_OD_SET_ENABLED   _IOWR    (DISP_IOCTL_MAGIC, 81 , int)
 // PQ setting
 #define DISP_IOCTL_PQ_GET_DS_PARAM _IOR      (DISP_IOCTL_MAGIC, 100, DISP_PQ_DS_PARAM)
 #define DISP_IOCTL_PQ_GET_MDP_COLOR_CAP _IOR (DISP_IOCTL_MAGIC, 101, MDP_COLOR_CAP)
